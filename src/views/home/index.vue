@@ -1,6 +1,7 @@
 <template>
   <div class="indexlayout-main-conent">
     <div class="mock">
+      <div class="Gzbox" ref="Gzbox"></div>
       <div class="viewLeft">
         <div class="left" ref="leftBox">
           <div
@@ -14,7 +15,6 @@
         </div>
       </div>
       <div class="viewbox">
-
         <div class="viewTop">
           <div class="left" ref="ToptBox">
             <div
@@ -27,9 +27,23 @@
             </div>
           </div>
         </div>
-   <div class="viewcenter cicleBox">
+        <div class="viewcenter cicleBox">
           <div class="clock" id="clock" ref="clock">
-
+            <div class="origin"></div>
+          </div>
+          <div class="centerdiv">
+            <ul ref="centerdiv">
+              <li v-for="(item, index) in centerlist" :key="index * 8.88">
+                <div class="large">
+                  <!-- <span class="s1">{{item.title}}</span> -->
+                  <span class="s2"></span>
+                  <span class="s3">{{ item.title }}</span>
+                </div>
+                <div class="small">
+                  <span></span>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -55,13 +69,73 @@
 </template>
 <style lang="less" scoped>
 .mock {
-  background: #436da7;
-  height: 500px;
+  background-image: linear-gradient(#436da7, #5d90c9);
+  height: 450px;
   width: 600px;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
   position: relative;
+  .Gzbox {
+    width: 1200px;
+    height: 500px;
+    background-image: linear-gradient(#4b8f98, #58d395);
+    transform-origin: top center;
+    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    position: absolute;
+    border-top: 1px solid #fff;
+    top: 254px;
+    left: -50%;
+  }
+  .centerdiv {
+    position: absolute;
+    top: 70px;
+    height: calc(27 * 6px);
+    overflow: hidden;
+    left: 50%;
+    transform: translateX(-35%);
+    ul {
+      transform: translateY(-560px);
+      transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+      li {
+        list-style: none;
+
+        .large {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          font-size: 12px;
+          .s1 {
+            color: #fff;
+            padding: 0 5px;
+          }
+          .s2 {
+            width: 40px;
+            height: 1px;
+            background: #fff;
+            display: inline-block;
+          }
+          .s3 {
+            margin-left: 5px;
+            color: #fff;
+          }
+        }
+        .small {
+          display: flex;
+          padding: 8px;
+          align-items: center;
+          justify-content: center;
+          span {
+            width: 15px;
+            height: 1px;
+            background: #fff;
+            margin-left: -24px;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
   .p-left {
     position: absolute;
     top: 202px;
@@ -78,7 +152,7 @@
     top: 202px;
     right: 100px;
     span {
-      width:30px;
+      width: 30px;
       height: 3px;
       background: #c8d332;
       display: inline-block;
@@ -98,7 +172,7 @@
   }
   .viewbox {
     .viewTop {
-       margin-top: 50px;
+      margin-top: 50px;
       width: 300px;
       border-bottom: 1px dashed #fff;
       height: 45px;
@@ -175,92 +249,101 @@
     }
   }
 }
-
 </style>
 <style lang="less">
-  .cicleBox{
-     margin-top: 50px;
-    /* 全局 */
-* {
-  margin: 0;
-  padding: 0;
-}
-.clock {
-  width: 300px;
-  height: 300px;
-  // box-shadow: 0px 0px 20px 3px #444 inset;
-   transition: transform 0.61s ease 0s, background-color 2s ease 3s;
-  border-radius: 150px;
+.cicleBox {
+  margin-top: 10px;
   position: relative;
-  margin: 5px auto;
-  z-index: 10;
-  // background-color:#233647;
-}
-/* 时钟数字 */
-.clock-num {
-  width: 40px;
-  height: 40px;
-  font-size: 12px;
-  text-align: center;
-  line-height: 40px;
-  position: absolute;
-  z-index: 8;
-  color: #D7DADD;
-}
-.em_num {
-  font-size: 16px;
-}
-
-
-
-.time-info {
-  width: 92px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  position: absolute;
-  top: 270px;
-  left: 154px;
-  z-index: 11;
-  background-color: #D7DADD;
-  padding: 0;
-  box-shadow: 0px 0px 9px 2px #222 inset;
-}
-.time {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  float: left;
-  color: #fff;
-  font-weight: bold;
-}
-#minute-time {
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
-}
-
-/* 刻度 */
-.clock-scale {
-  width: 195px;
-  height: 2px;
-  transform-origin: 26% 50%;
-  z-index: 7;
-  position: absolute;
-  top: 149px;
-  left: 100px;
-}
-.scale-show {
-  width: 12px;
-  height: 2px;
-  background-color: #555;
-  float: left;
-}
-.scale-hidden {
-  width: 183px;
-  height: 2px;
-  float: left;
-}
+  /* 全局 */
+  * {
+    margin: 0;
+    padding: 0;
   }
+  .clock {
+    width: 300px;
+    height: 300px;
+    // box-shadow: 0px 0px 20px 3px #444 inset;
+    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    border-radius: 150px;
+    position: relative;
+    margin: 5px auto;
+    z-index: 10;
+    // background-color:#233647;
+  }
+  /* 时钟数字 */
+  .clock-num {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 40px;
+    position: absolute;
+    z-index: 8;
+    color: #d7dadd;
+  }
+  .em_num {
+    font-size: 16px;
+  }
+
+  .origin {
+    width: 2px;
+    height: 2px;
+    border-radius: 10px;
+    background-color: #000;
+    position: absolute;
+    top: 149px;
+    left: 149px;
+    z-index: 14;
+  }
+
+  .time-info {
+    width: 92px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    position: absolute;
+    top: 270px;
+    left: 154px;
+    z-index: 11;
+    background-color: #d7dadd;
+    padding: 0;
+    box-shadow: 0px 0px 9px 2px #222 inset;
+  }
+  .time {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    float: left;
+    color: #fff;
+    font-weight: bold;
+  }
+  #minute-time {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+  }
+
+  /* 刻度 */
+  .clock-scale {
+    width: 195px;
+    height: 2px;
+    transform-origin: 26% 50%;
+    z-index: 7;
+    position: absolute;
+    top: 149px;
+    left: 100px;
+  }
+  .scale-show {
+    width: 12px;
+    height: 2px;
+    background-color: #555;
+    float: left;
+  }
+  .scale-hidden {
+    width: 183px;
+    height: 2px;
+    float: left;
+  }
+}
 </style>
 <script >
 import {
@@ -297,45 +380,64 @@ export default defineComponent({
         title: i * 10,
       });
     }
+
     const leftlist = ref(arr);
     const rightlist = ref(arr1);
     const Toplist = ref(arr3);
+    const centerlist = ref(arr3.reverse());
     const leftBox = ref(null);
     const ToptBox = ref(null);
     const rightBox = ref(null);
+    const Gzbox = ref(null);
+    const centerdiv = ref(null);
     let dataObj = reactive({
       leftvalue: 0,
       rightvalue: 0,
       lineHtml: null,
       numberHtml: null,
     });
+    let onOff = true;
     const changeTarge = () => {
-      //   setInterval(() => {
-      let num = 10 * Math.random();
-      leftBox.value.style.transform = `translateY(${
-        (num / 10) * 30 - 1320 + "px"
-      })`;
-      dataObj.leftvalue = parseInt(num);
-      rightBox.value.style.transform = `translateY(${num * 30 - 450 + "px"})`;
-      dataObj.rightvalue = parseInt(num);
+      setInterval(() => {
+        let num = parseInt(10 * Math.random());
+        leftBox.value.style.transform = `translateY(${
+          (num / 10) * 30 - 1320 + "px"
+        })`;
+        dataObj.leftvalue = parseInt(num);
 
-      let num1 = 16 * Math.random();
-      console.log(num1);
-      ToptBox.value.style.transform = `translateX(${
-        -(num1 / 10) * 50 - 780 + "px"
-      })`;
+        rightBox.value.style.transform = `translateY(${num * 30 - 450 + "px"})`;
+        dataObj.rightvalue = parseInt(num);
 
-      let deg = 360 * Math.random()
+        let num1 = 16 * Math.random();
+        console.log(num1);
+        ToptBox.value.style.transform = `translateX(${
+          -(num1 / 10) * 50 - 780 + "px"
+        })`;
 
-      let doms = document.getElementsByClassName('clock-num ')
+        //中间滚轮效果
+        let deg = 360 * Math.random();
 
-      console.log(deg)
-      document.getElementById("clock").style.transform = `rotate(${-deg}deg)`
-      for(let i = 0;i<doms.length;i++){
+        let doms = document.getElementsByClassName("clock-num ");
 
-        doms[i].style.transform = `rotate(${deg}deg)`
-      }
-      //  }, 800);
+        console.log(num);
+        document.getElementById("clock").style.transform = `rotate(${-deg}deg)`;
+        for (let i = 0; i < doms.length; i++) {
+          doms[i].style.transform = `rotate(${deg}deg)`;
+        }
+
+        //俯仰效果
+        centerdiv.value.style.transform = `translateY(${
+          num * 35 - 560 + "px"
+        })`;
+
+        //波浪效果
+        onOff = !onOff;
+        let gos = null;
+        onOff
+          ? (gos = `-${100 * Math.random()}`)
+          : (gos = `${100 * Math.random()}`);
+        Gzbox.value.style.transform = `rotate(${gos}deg)`;
+      }, 600);
     };
     onMounted(() => {
       nextTick(() => {
@@ -396,9 +498,12 @@ export default defineComponent({
             for (var i = 1; i <= 12; i++) {
               if (i % 3 == 0) {
                 clock.innerHTML +=
-                  "<div  class='clock-num em_num'>" + (i*30 == 360 ? 0:i*30) + "</div>";
+                  "<div  class='clock-num em_num'>" +
+                  (i * 30 == 360 ? 0 : i * 30) +
+                  "</div>";
               } else {
-                clock.innerHTML += "<div class='clock-num'>" + i*30 + "</div>";
+                clock.innerHTML +=
+                  "<div class='clock-num'>" + i * 30 + "</div>";
               }
             }
             var clock_num = document.getElementsByClassName("clock-num");
@@ -424,9 +529,12 @@ export default defineComponent({
     return {
       leftlist,
       rightlist,
+      centerlist,
       Toplist,
       changeTarge,
       leftBox,
+      centerdiv,
+      Gzbox,
       rightBox,
       ToptBox,
       ...toRefs(dataObj),
