@@ -15,21 +15,10 @@
         </div>
       </div>
       <div class="viewbox">
-        <div class="viewTop">
-          <div class="left" ref="ToptBox">
-            <div
-              class="item"
-              v-for="(right, leftindex) in Toplist"
-              :key="leftindex * 0.1"
-            >
-              <span class="s1">{{ right.title }}</span>
-              <span class="s2">¦</span>
-            </div>
-          </div>
-        </div>
+
         <div class="viewcenter cicleBox">
           <div class="clock" id="clock" ref="clock">
-            <div class="origin"></div>
+            <!-- <div class="origin "></div> -->
           </div>
           <div class="centerdiv">
             <ul ref="centerdiv">
@@ -44,6 +33,18 @@
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+          <div class="viewTop">
+          <div class="left" ref="ToptBox">
+            <div
+              class="item"
+              v-for="(right, leftindex) in Toplist"
+              :key="leftindex * 0.1"
+            >
+              <span class="s1">{{ right.title }}</span>
+              <span class="s2">¦</span>
+            </div>
           </div>
         </div>
       </div>
@@ -62,7 +63,12 @@
       </div>
       <div class="p-left"><span></span>{{ leftvalue }}</div>
       <div class="p-right">{{ rightvalue }}<span></span></div>
-      <!-- <div class="p-top"><span></span></div> -->
+       <div class="p-bottom"><i class="iconfont icon-jiantou"></i></div>
+      <div class="p-top"><i class="iconfont  icon-jiantou"></i></div>
+        <div class="p-center"><i class="iconfont  icon-mono-top-full"></i></div>
+      <div class=" iconfont icon-planebfeiji feiji" ref="feiji">
+
+      </div>
     </div>
     <button @click="changeTarge">left</button>
   </div>
@@ -76,6 +82,15 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  .feiji{
+    font-size: 180px;
+    position: absolute;
+    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    color: #FF7A39;
+    opacity: 0.6;
+    top:78px;
+    left: 218px;
+  }
   .Gzbox {
     width: 1200px;
     height: 500px;
@@ -84,7 +99,7 @@
     transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     position: absolute;
     border-top: 1px solid #fff;
-    top: 254px;
+    top: 218px;
     left: -50%;
   }
   .centerdiv {
@@ -93,6 +108,7 @@
     height: calc(27 * 6px);
     overflow: hidden;
     left: 50%;
+    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     transform: translateX(-35%);
     ul {
       transform: translateY(-560px);
@@ -141,9 +157,9 @@
     top: 202px;
     left: 100px;
     span {
-      width: 30px;
+      width: 50px;
       height: 3px;
-      background: #c8d332;
+      background: #FF7A39;
       display: inline-block;
     }
   }
@@ -152,29 +168,56 @@
     top: 202px;
     right: 100px;
     span {
-      width: 30px;
+      width: 50px;
       height: 3px;
-      background: #c8d332;
+      background: #FF7A39;
       display: inline-block;
+    }
+  }
+  .p-center{
+      position: absolute;
+    top: 199px;
+    left: 280px;
+    i{
+      font-size: 40px;
+      color: #FF7A39;
+
+    }
+  }
+  .p-bottom{
+    position: absolute;
+    bottom: 55px;
+    left: 281px;
+     transform: rotate(180deg);
+    i{
+      font-size: 28px;
+      color: #FF7A39;
+
     }
   }
   .p-top {
     position: absolute;
-    top: 70px;
-    left: 269px;
-    transform: rotate(90deg);
+    top: 35px;
+    left: 288px;
+     transform: rotate(180deg);
+    i{
+      font-size: 28px;
+      color: #FF7A39;
+
+    }
     span {
       width: 60px;
       height: 3px;
-      background: #c8d332;
+      background: #FF7A39;
       display: inline-block;
     }
   }
   .viewbox {
     .viewTop {
-      margin-top: 50px;
+      margin-top: 5px;
       width: 300px;
       border-bottom: 1px dashed #fff;
+      position: absolute;
       height: 45px;
       overflow: hidden;
       .left {
@@ -207,7 +250,7 @@
     height: 330px;
     .left {
       width: 50px;
-      transform: translateY(-1320px);
+      transform: translateY(-1316px);
       transition: transform 0.61s ease 0s, background-color 2s ease 3s;
       border-right: 1px dashed #fff;
       .item {
@@ -231,7 +274,7 @@
     height: 330px;
     .left {
       width: 50px;
-      transform: translateY(-450px);
+      transform: translateY(-446px);
       transition: transform 0.61s ease 0s, background-color 2s ease 3s;
       border-left: 1px dashed #fff;
       .item {
@@ -252,7 +295,7 @@
 </style>
 <style lang="less">
 .cicleBox {
-  margin-top: 10px;
+  margin-top: 70px;
   position: relative;
   /* 全局 */
   * {
@@ -286,13 +329,15 @@
   }
 
   .origin {
-    width: 2px;
-    height: 2px;
-    border-radius: 10px;
-    background-color: #000;
+    // width: 2px;
+    // height: 2px;
+    // border-radius: 10px;
+    // background-color: #000;
     position: absolute;
-    top: 149px;
-    left: 149px;
+    font-size: 160px;
+    color: #c8d332;
+    top: 20px;
+    left:73px;
     z-index: 14;
   }
 
@@ -388,6 +433,7 @@ export default defineComponent({
     const leftBox = ref(null);
     const ToptBox = ref(null);
     const rightBox = ref(null);
+    const feiji = ref(null)
     const Gzbox = ref(null);
     const centerdiv = ref(null);
     let dataObj = reactive({
@@ -398,14 +444,14 @@ export default defineComponent({
     });
     let onOff = true;
     const changeTarge = () => {
-      setInterval(() => {
+     // setInterval(() => {
         let num = parseInt(10 * Math.random());
         leftBox.value.style.transform = `translateY(${
-          (num / 10) * 30 - 1320 + "px"
+          (num / 10) * 30 - 1316 + "px"
         })`;
         dataObj.leftvalue = parseInt(num);
 
-        rightBox.value.style.transform = `translateY(${num * 30 - 450 + "px"})`;
+        rightBox.value.style.transform = `translateY(${num * 30 - 446 + "px"})`;
         dataObj.rightvalue = parseInt(num);
 
         let num1 = 16 * Math.random();
@@ -430,14 +476,20 @@ export default defineComponent({
           num * 35 - 560 + "px"
         })`;
 
+        feiji.value.style.transform = `rotateX(${
+          num*10+ "deg"
+        })`;
+
         //波浪效果
         onOff = !onOff;
         let gos = null;
         onOff
-          ? (gos = `-${100 * Math.random()}`)
-          : (gos = `${100 * Math.random()}`);
-        Gzbox.value.style.transform = `rotate(${gos}deg)`;
-      }, 600);
+          ? (gos = `-${50 * Math.random()}`)
+          : (gos = `${50 * Math.random()}`);
+        Gzbox.value.style.transform = `rotate(${gos}deg) translateY(${num*10+ "px"})`;
+
+
+    //}, 600);
     };
     onMounted(() => {
       nextTick(() => {
@@ -536,6 +588,7 @@ export default defineComponent({
       centerdiv,
       Gzbox,
       rightBox,
+      feiji,
       ToptBox,
       ...toRefs(dataObj),
     };

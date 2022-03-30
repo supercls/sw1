@@ -3,8 +3,9 @@ import { createApp } from 'vue';
 // 全局样式
 import '@/assets/css/global.less';
 
-// 引入 Antd 
+// 引入 Antd
 import Antd from 'ant-design-vue';
+
 
 // 导入 svg
 import { importAllSvg } from "@/components/IconSvg/index";
