@@ -6,7 +6,7 @@ import 'echarts/theme/macarons';
 export default function useEcharts(
     labRef: Ref<HTMLDivElement | HTMLCanvasElement | undefined>, 
     initOption: EChartOption, 
-    theme= 'macarons'
+    theme = 'macarons'
     ): Ref<echarts.ECharts | undefined> {
 
     let ec: ECharts;

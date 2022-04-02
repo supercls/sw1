@@ -1,29 +1,33 @@
-# admin-antd-vue
+# electron-admin-antd-vue
 
-此分支是 Webpack + Vue3.x + antd 版本 ， Vite 版本请查看 vite (分支)（[github](https://github.com/lqsong/admin-antd-vue/tree/vite)、[gitee](https://gitee.com/lqsong/admin-antd-vue/tree/vite)）
+> electron-admin-antd-vue（[GitHub](https://github.com/lqsong/electron-admin-antd-vue)、[Gitee](https://gitee.com/lqsong/electron-admin-antd-vue)） 是在 `admin-antd-vue`（[GitHub](https://github.com/lqsong/admin-antd-vue)、[Gitee](https://gitee.com/lqsong/admin-antd-vue)）的基础上结合 [vue-cli-plugin-electron-builder](https://github.com/nklayman/vue-cli-plugin-electron-builder) 构建的桌面Admin。
 
 ## Demo
 
-**注意：Demo 用的是在线mock服务，不稳定，若在线登录不了pull到本地可直接运行查看demo**
+**注意：Demo 用的是在线mock服务，不稳定，若登录不了pull到本地可直接运行查看demo**
 
-| **[http://demo.admin-antd-vue.liqingsong.cc](http://demo.admin-antd-vue.liqingsong.cc/)**             |
+> 下载自己需要的版本进行安装
+
+|下载链接|
 :-------------------------:
-| ![Home](https://gitee.com/lqsong/public/raw/master/admin-antd-vue/home.png)  |
-| ![Home](https://gitee.com/lqsong/public/raw/master/admin-antd-vue/home2.png)  |
+| electron-admin-antd-vue-v1.0.0-win32-ia32-setup.exe [Github](https://github.com/lqsong/electron-admin-antd-vue/releases) [Gitee](https://gitee.com/lqsong/electron-admin-antd-vue/releases)  |
+| electron-admin-antd-vue-v1.0.0-win32-x64-setup.exe [Github](https://github.com/lqsong/electron-admin-antd-vue/releases) [Gitee](https://gitee.com/lqsong/electron-admin-antd-vue/releases) |
+| electron-admin-antd-vue-v1.0.0-mac.dmg [Github](https://github.com/lqsong/electron-admin-antd-vue/releases) [Gitee](https://gitee.com/lqsong/electron-admin-antd-vue/releases) |
 
 
-## Vue3实战案例
-
-- lqsblog-frontend-admin-vue（[Github](https://github.com/lqsong/lqsblog-frontend-admin-vue) 、 [Gitee](https://gitee.com/lqsong/lqsblog-frontend-admin-vue)）
-
+|图片预览|
+:-------------------------:
+| ![Home](https://gitee.com/lqsong/public/raw/master/electron-admin-antd-vue/admin1.png)  |
+| ![Home](https://gitee.com/lqsong/public/raw/master/electron-admin-antd-vue/admin2.png)  |
 
 
 
 ## 使用文档
 
- - [http://admin-antd-vue.liqingsong.cc](http://admin-antd-vue.liqingsong.cc/)
- - [Github](https://github.com/lqsong/admin-antd-vue)
- - [Gitee](https://gitee.com/lqsong/admin-antd-vue)
+ - [admin-antd-vue](http://admin-antd-vue.liqingsong.cc/guide/senior/electron.html)
+ - [vue-cli-plugin-electron-builder](https://nklayman.github.io/vue-cli-plugin-electron-builder) 
+ - [electron-builder](https://www.electron.build) 
+
 
 
 ## 后台前端解决方案列表
@@ -35,6 +39,7 @@
  - electron-admin-antd-vue（[GitHub](https://github.com/lqsong/electron-admin-antd-vue)、[Gitee](https://gitee.com/lqsong/electron-admin-antd-vue)）
  - electron-admin-antd-react（[GitHub](https://github.com/lqsong/electron-admin-antd-react)、[Gitee](https://gitee.com/lqsong/electron-admin-antd-react)）
  - admin-vue3-micro-qiankun（[GitHub](https://github.com/lqsong/admin-vue3-micro-qiankun)、[Gitee](https://gitee.com/lqsong/admin-vue3-micro-qiankun)）
+
 
 
 ## 功能
@@ -72,7 +77,7 @@
       - 搜索列表
     - 表单页面
       - 基础表单
-      - 高级表单
+      - 高级表单      
     - 详情页面
       - 基础详情
       - 模块详情
@@ -109,25 +114,25 @@ $ npm install
 ### 二、Compiles and hot-reloads for development
 
 ```bash
-$ yarn serve
+$ yarn electron:serve
 ```
 
 or
 
 ```
-$ npm run serve
+$ npm run electron:serve
 ```
 
 
 ### 三、Compiles and minifies for production
 
 ```bash
-$ yarn build
+$ yarn electron:build
 ```
 or
 
 ```
-$ npm run build
+$ npm run electron:build
 ```
 
 ### 四、精简 svg icon
@@ -159,4 +164,13 @@ yarn lint
 
 npm run lint
 ```
+
+
+## 捐赠
+
+如果你觉得这个项目帮助到了你，请帮助点击 Star，你也可以请作者喝咖啡表示鼓励.
+
+**ALIPAY**             |  **WECHAT**
+:-------------------------:|:-------------------------:
+![Alipay](http://uploads.liqingsong.cc/20210430/f62d2436-8d92-407d-977f-35f1e4b891fc.png)  |  ![Wechat](http://uploads.liqingsong.cc/20210430/3e24efa9-8e79-4606-9bd9-8215ce1235ac.png)
 

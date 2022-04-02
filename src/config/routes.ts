@@ -5,7 +5,7 @@
 import NProgress from 'nprogress'; // progress bar
 import 'nprogress/nprogress.css'; // progress bar style
 NProgress.configure({ showSpinner: false, easing: 'ease', speed: 1000 }); // NProgress Configuration
- 
+
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { RoutesDataItem } from "@/utils/routes";
 import settings from "@/config/settings";
@@ -36,8 +36,13 @@ const routes: RoutesDataItem[] = [
         path: '/refresh',
         component: () => import('@/views/refresh/index.vue'),
       },
+      {
+        title: 'setting',
+        path: '/setting',
+        component: () => import('@/views/dialog/syssetting.vue'),
+      },
     ]
-  },  
+  },
   {
     title: 'empty',
     path: '/user',

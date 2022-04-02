@@ -48,7 +48,7 @@ import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 import IconSvg from "@/components/IconSvg";
 
-const requireAll = (requireContext: any/* __WebpackModuleApi.RequireContext */) =>
+const requireAll = (requireContext: any /* __WebpackModuleApi.RequireContext */) =>
   requireContext.keys();
 const svgIcons = requireAll(
   require.context('../../../../assets/iconsvg', false, /\.svg$/),
