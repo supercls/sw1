@@ -22,7 +22,7 @@ export default defineComponent({
        remote.getCurrentWindow().hide()
     }
     const changes = () =>{
-       store.dispatch("setToken","8999")
+       store.dispatch("setToken","6666")
     }
     return{
       closeD,

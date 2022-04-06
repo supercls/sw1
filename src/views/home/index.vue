@@ -6,14 +6,15 @@
       打开新窗口1
     </a-button>
     <a-button type="primary" @click="openDialog(2, 'b')"> 打开新窗口2</a-button>
+    <button @click="removeStore">删除</button>
   </div>
 </template>
 
 <script>
 import flymock from "../component/flymock/index.vue";
 import {useStore} from 'vuex'
+import { useRouter } from "vue-router";
 const electron = window.require("electron");
-const { ipcRenderer } = electron;
 const { remote } = electron;
 const isDevelopment = process.env.NODE_ENV !== "production";
 const winURL = isDevelopment ? "http://localhost:8000" : `app://./index.html`;
@@ -25,9 +26,10 @@ export default defineComponent({
   },
   setup: () => {
     const store = useStore()
-     console.log(store.createPersistedState)
+     const router = useRouter();
     const Token = computed(() =>store.state.Token)
     console.log(store.state)
+
     const openDialog = (index, dom) => {
       console.log(global.windowObj);
       console.log(remote.BrowserWindow.getAllWindows());
@@ -54,8 +56,19 @@ export default defineComponent({
         global.windowObj[dom] = win;
       }
     };
+
+    const removeStore = () =>{
+      store.dispatch("removeToken")
+      setTimeout(() =>{
+         router.push({
+        path:'/setting'
+      })
+      },1000)
+
+    }
     return {
       openDialog,
+      removeStore,
       Token
     };
   },

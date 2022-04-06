@@ -10,7 +10,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-const winURL = isDevelopment ? 'http://localhost:8000'
+const winURL = isDevelopment ? 'http://localhost:8001'
   : `app://./index.html`
 let win
 

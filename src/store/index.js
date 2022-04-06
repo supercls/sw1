@@ -4,11 +4,14 @@ const storage = require('electron-localstorage');
 
 const store = new Vuex.Store({
   state: {
-    Token: storage.getItem(`ele-storage-token`) || '123456',
+    Token: '',
   },
   actions: {
-    setToken({ commit, state }, token) {
-      commit("SETTOKEN", token);
+    setToken({ commit }, token) {
+        commit("SETTOKEN", token);
+    },
+    removeToken({ commit }) {
+      commit("DELTOKEN");
     },
   },
   mutations: {
@@ -16,6 +19,10 @@ const store = new Vuex.Store({
       state.Token = token;
       storage.setItem("ele-storage-token", token);
     },
+    DELTOKEN: (state) => {
+      state.Token = null;
+      storage.removeItem("ele-storage-token");
+    }
   },
 	plugins: [createPersistedState(), createSharedMutations()],
 });
