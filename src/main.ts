@@ -7,7 +7,7 @@ import '@/assets/css/global.less';
 import Antd from 'ant-design-vue';
 
 import App from '@/App.vue';
-import router from '@/config/routes';
+import router from '@/config/routes.js';
 import store from '@/store/index.js';
 
 

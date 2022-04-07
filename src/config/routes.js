@@ -3,18 +3,12 @@ import NProgress from 'nprogress'; // progress bar
 import 'nprogress/nprogress.css'; // progress bar style
 NProgress.configure({ showSpinner: false, easing: 'ease', speed: 1000 }); // NProgress Configuration
 
-import { createRouter, createWebHashHistory ,RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 import SecurityLayout from '@/layouts/SecurityLayout.vue';
-
-import IndexLayoutRoutes from '@/layouts/IndexLayout/routes';
 import IndexLayout from '@/layouts/IndexLayout/index.vue';
 
-export type RoutesDataItem = RouteRecordRaw;
-import UserLayoutRoutes from '@/layouts/UserLayout/routes';
-import UserLayout from '@/layouts/UserLayout/index.vue';
-
-const routes: RoutesDataItem[] = [
+const routes = [
   {
     title: 'Home',
     path: '/',
@@ -25,7 +19,11 @@ const routes: RoutesDataItem[] = [
         path: '/',
         redirect: '/home/workplace',
         component: IndexLayout,
-        children: IndexLayoutRoutes
+      },
+      {
+        title: 'Home',
+        path: '/home/workplace',
+        component: () => import('@/views/home/index.vue'),
       },
       {
         title: 'empty',
@@ -34,17 +32,16 @@ const routes: RoutesDataItem[] = [
       },
       {
         title: 'setting',
-        path: '/setting',
+        path: '/home/setting',
         component: () => import('@/views/dialog/syssetting.vue'),
       },
     ]
   },
   {
-    title: 'empty',
-    path: '/user',
-    redirect: '/user/login',
-    component: UserLayout,
-    children: UserLayoutRoutes
+    title: 'login',
+    path: '/login',
+    component: () => import('@/views/user/login/index.vue'),
+    children: []
   },
   {
     title: 'app.global.menu.notfound',

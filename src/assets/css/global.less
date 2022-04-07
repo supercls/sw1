@@ -1,13 +1,42 @@
-@import '~ant-design-vue/dist/antd.less';
-@import './antd-variables.less';
-@import './variables.less';
-@import './mixin.less';
+@import "~ant-design-vue/dist/antd.less";
+@import "./antd-variables.less";
+@import "./variables.less";
+@import "./mixin.less";
 
 #nprogress .bar {
-    background: @primary-color !important;
+  background: @primary-color !important;
 }
 
-.text-align-right{
-    text-align: right;
+.text-align-right {
+  text-align: right;
 }
 
+body {
+  font-family: "Adobe Heiti Std R";
+}
+.loginT {
+  .ant-form-item-label > label {
+    color: #fff;
+  }
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+  .ant-select-selector {
+      background: #252C49 !important;
+      color: #fff;
+    width: 120px !important;
+  }
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #7287fd !important;
+  }
+  .ant-select-selection-item {
+    font-weight: normal;
+  }
+  .ant-select-item{
+      color: #fff !important;
+  }
+  .ant-select-arrow{
+    color: #7287fd !important;
+  }
+}

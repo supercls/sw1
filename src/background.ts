@@ -10,16 +10,18 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-const winURL = isDevelopment ? 'http://localhost:8001'
+const winURL = isDevelopment ? 'http://localhost:8000'
   : `app://./index.html`
 let win
 
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 400,
+    width: 812,
     height: 550,
     frame: true,
+    backgroundColor:'#252C49',
+    transparent :false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info.

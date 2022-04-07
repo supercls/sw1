@@ -9,6 +9,7 @@
 </template>
 <script>
 const { ipcRenderer ,remote} = window.require("electron");
+import { useRouter } from "vue-router";
 import {useStore} from 'vuex'
 import {defineComponent,computed} from 'vue'
 
@@ -17,7 +18,7 @@ export default defineComponent({
   setup:() =>{
     const store = useStore()
     const Token = computed(() =>store.state.Token)
-
+    const router = useRouter();
     const closeD = () =>{
        remote.getCurrentWindow().hide()
     }
