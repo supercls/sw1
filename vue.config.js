@@ -69,6 +69,10 @@ module.exports = {
 
     },
     pluginOptions: {
+        'style-resources-loader': {
+			preProcessor: 'less',
+			patterns: [ './src/assets/css/variables.less' ]
+		},
         electronBuilder: {
             nodeIntegration: true,
             // electron 构建配置

@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 
 // 全局样式
 import '@/assets/css/global.less';
-
+import "@/assets/css/variables.less";
 // 引入 Antd
 import Antd from 'ant-design-vue';
 

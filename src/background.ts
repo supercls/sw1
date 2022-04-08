@@ -5,6 +5,44 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import './store/index'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+
+//后台服务
+// 当前的可执行文件所在目录
+let appPath = app.getPath('exe')
+
+// 获取上一层的目录 app 是当前目录名称 需要给去掉
+let path = appPath.replace(/\\dist\\electron.exe/, '')
+
+
+const exec = require('child_process').exec
+// 本地须要启动的后台服务名称
+let cmdStr = 'gcc'
+let cmdPath = path
+let workerProcess
+
+function runExec () {
+  // 执行命令行，若是命令不须要路径，或就是项目根目录，则不须要cwd参数：
+  workerProcess = exec(cmdStr, {cwd: cmdPath})
+  // 不受child_process默认的缓冲区大小的使用方法，没参数也要写上{}：workerProcess = exec(cmdStr, {})
+
+  // 打印正常的后台可执行程序输出
+  workerProcess.stdout.on('data', function (data) {
+    console.log('stdout: ' + data)
+  })
+
+  // 打印错误的后台可执行程序输出
+  workerProcess.stderr.on('data', function (data) {
+    console.log('stderr: ' + data)
+  })
+
+  // 退出以后的输出
+  workerProcess.on('close', function (code) {
+    console.log('out code：' + code)
+  })
+}
+
+//后台服务
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -75,7 +113,9 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  //
   createWindow()
+  //runExec()
 })
 
 

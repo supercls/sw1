@@ -3,6 +3,10 @@
 @import "./variables.less";
 @import "./mixin.less";
 
+* {
+  margin: 0;
+  padding: 0
+}
 #nprogress .bar {
   background: @primary-color !important;
 }
@@ -23,12 +27,15 @@ body {
     display: none;
   }
   .ant-select-selector {
-      background: #252C49 !important;
+      background: @mainbg !important;
       color: #fff;
     width: 120px !important;
+
   }
+
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border-color: #7287fd !important;
+    border-radius: 10px;
   }
   .ant-select-selection-item {
     font-weight: normal;
@@ -38,5 +45,13 @@ body {
   }
   .ant-select-arrow{
     color: #7287fd !important;
+  }
+  .file{
+    input{
+      background: #1B223C;
+      color: #fff;
+      border-radius: 10px;
+
+    }
   }
 }

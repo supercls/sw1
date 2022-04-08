@@ -19,11 +19,13 @@ const routes = [
         path: '/',
         redirect: '/home/workplace',
         component: IndexLayout,
-      },
-      {
-        title: 'Home',
-        path: '/home/workplace',
-        component: () => import('@/views/home/index.vue'),
+        children: [
+          {
+            title: 'Home',
+            path: '/home/workplace',
+            component: () => import('@/views/home/index.vue'),
+          },
+        ]
       },
       {
         title: 'empty',
