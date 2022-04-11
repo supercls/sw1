@@ -1,69 +1,179 @@
 <template>
   <div id="indexlayout">
-    <header>
-      <span>logo</span>
-      <div>
-        <i class="iconfont icon-suoxiao" @click="minimize"></i>
-        <i class="iconfont icon-guanbi" @click="closeWindow"></i>
-      </div>
-    </header>
-    <div class="menu">
-        <ul>
-            <li>
+    <home-header>
 
-            </li>
-        </ul>
+    </home-header>
+    <div class="menu">
+      <ul>
+        <li
+          v-for="(item, index) in mList"
+          :key="index * 1.1"
+          :class="{ isActive: item.active }"
+          @click="getMenu(item, index)"
+        >
+          <i :class="item.icon" class="iconfont"></i>
+          <span>{{ item.name }}</span>
+        </li>
+      </ul>
+      <div class="menu-right">
+        <i class="iconfont icon-sanjiaoleft" @click="scorllGp(2)"></i>
+        <div class="muls">
+          <div class="scorlldiv">
+            <div
+              class="mr-list"
+              v-for="(child, childIndex) in childList"
+              :key="childIndex * 6.66"
+            >
+              <span>{{ child.name }}</span>
+            </div>
+          </div>
+        </div>
+
+        <i class="iconfont icon-sanjiaoright" @click="scorllGp(1)"></i>
+      </div>
     </div>
     <router-view></router-view>
   </div>
 </template>
 <script>
-const { remote } = window.require("electron");
-import { defineComponent, reactive } from "vue";
+import homeHeader from '@/components/homeHeader.vue'
+import menuList from "@/utils/menu";
+import { defineComponent, reactive, computed, ref } from "vue";
 export default defineComponent({
   name: "indexLayout",
+  components:{
+    homeHeader
+  },
   setup() {
-    const closeWindow = () => {
-      remote.getCurrentWindow().close();
+    let scorllX = 0;
+    const mList = reactive(menuList);
+    const CHOOSEINDEX = ref(0);
+
+    const getMenu = (item, index) => {
+      scorllX = 0
+       document.querySelector(
+          ".scorlldiv"
+        ).style.transform = `translateX(0px)`;
+      mList.map((j) => {
+        j.active = false;
+      });
+      item.active = true;
+      CHOOSEINDEX.value = index;
     };
 
-    const minimize = () => {
-      remote.getCurrentWindow().minimize();
+
+    const childList = computed(() => {
+      return mList[CHOOSEINDEX.value].children;
+    });
+
+    const scorllGp = (index) => {
+      let swidth = document.querySelector(".scorlldiv").offsetWidth;
+      let iwdth = document.querySelector(".mr-list").offsetWidth + 15;
+      let length = childList.value.length;
+      if (index == 2) {
+        if (scorllX == 0) {
+          return;
+        }
+        scorllX -= iwdth;
+         document.querySelector(
+          ".scorlldiv"
+        ).style.transform = `translateX(-${scorllX}px)`;
+      } else if (index == 1) {
+        if (scorllX >= iwdth * length - swidth) {
+          return;
+        }
+         scorllX += iwdth;
+        document.querySelector(
+          ".scorlldiv"
+        ).style.transform = `translateX(-${scorllX}px)`;
+      }
     };
     return {
-      closeWindow,
-      minimize,
+      getMenu,
+      scorllGp,
+      CHOOSEINDEX,
+      childList,
+      mList,
     };
   },
 });
 </script>
 <style lang="less" scoped>
 #indexlayout {
-  header {
+  background: @mainbg;
+  height: 100vh;
+  .menu {
+    padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
-    height: 32px;
-    cursor: move;
-    line-height: 32px;
-    -webkit-app-region: drag;
-    align-items: center;
-    background: linear-gradient(-86deg, #1F2870, #131832);
-    border-bottom: 1px solid #7287fd;
-    opacity: 0.9;
-    padding: 0 15px;
-    .icon-suoxiao {
-      margin-right: 20px;
+    .menu-right {
+      margin-left: 10px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      align-items: center;
+      .muls {
+        overflow: hidden;
+        margin-right: 50px;
+      }
+      .scorlldiv {
+        display: flex;
+        transition: transform 0.3s ease 0s;
+      }
+      .mr-list {
+        background: #313761;
+        border: 1px solid #5365d0;
+        margin-right: 15px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 10px;
+        width: 120px;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0 20px;
+        color: #fff;
+      }
+      i {
+        font-size: 28px;
+        cursor: pointer;
+        margin: 0 10px;
+        color: #5a7dee;
+      }
+      .icon-sanjiaoright {
+        position: absolute;
+        right: 0px;
+      }
     }
-    span {
-      color: #91a9ff;
-      font-size: @font16;
-    }
-    i {
-      font-size: @font16;
-      -webkit-app-region: no-drag;
-      cursor: pointer;
-      color: #cccccd;
+    ul {
+      display: flex;
+      align-items: center;
+      .isActive {
+        background: radial-gradient(circle, #8b9eff, #3764f6);
+      }
+      li {
+        display: flex;
+        border: 1px solid #5a7dee;
+        box-shadow: #5a7dee 0px 0px 6px 1px inset;
+        width: 70px;
+        height: 70px;
+        padding: 6px 0;
+        background: #1a1f3c;
+        margin-right: 15px;
+        border-radius: 20px;
+        align-items: center;
+        flex-direction: column;
+        cursor: pointer;
+        i {
+          font-size: 26px;
+          color: #fff;
+        }
+        span {
+          color: #fff;
+          font-size: @font10;
+        }
+      }
     }
   }
+
 }
 </style>
