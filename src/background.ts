@@ -20,26 +20,7 @@ let cmdStr = 'gcc'
 let cmdPath = path
 let workerProcess
 
-function runExec () {
-  // 执行命令行，若是命令不须要路径，或就是项目根目录，则不须要cwd参数：
-  workerProcess = exec(cmdStr, {cwd: cmdPath})
-  // 不受child_process默认的缓冲区大小的使用方法，没参数也要写上{}：workerProcess = exec(cmdStr, {})
 
-  // 打印正常的后台可执行程序输出
-  workerProcess.stdout.on('data', function (data) {
-    console.log('stdout: ' + data)
-  })
-
-  // 打印错误的后台可执行程序输出
-  workerProcess.stderr.on('data', function (data) {
-    console.log('stderr: ' + data)
-  })
-
-  // 退出以后的输出
-  workerProcess.on('close', function (code) {
-    console.log('out code：' + code)
-  })
-}
 
 //后台服务
 
@@ -55,8 +36,8 @@ let win
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 812,
-    height: 550,
+    width: 800,
+    height: 400,
     frame: true,
     backgroundColor:'#252C49',
     transparent :false,
@@ -89,7 +70,7 @@ async function createWindow() {
   )
 
   ipcMain.on('changWindowSize', e =>
-    win.setSize(1050, 700)
+    win.maximize()
   )
 
 }
@@ -155,3 +136,23 @@ ipcMain.on('openSettingWindow', e =>
   openCalendarWindow()
 )
 
+function runExec () {
+  // 执行命令行，若是命令不须要路径，或就是项目根目录，则不须要cwd参数：
+  workerProcess = exec(cmdStr, {cwd: cmdPath})
+  // 不受child_process默认的缓冲区大小的使用方法，没参数也要写上{}：workerProcess = exec(cmdStr, {})
+
+  // 打印正常的后台可执行程序输出
+  workerProcess.stdout.on('data', function (data) {
+    console.log('stdout: ' + data)
+  })
+
+  // 打印错误的后台可执行程序输出
+  workerProcess.stderr.on('data', function (data) {
+    console.log('stderr: ' + data)
+  })
+
+  // 退出以后的输出
+  workerProcess.on('close', function (code) {
+    console.log('out code：' + code)
+  })
+}

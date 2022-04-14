@@ -17,7 +17,7 @@ const routes = [
       {
         title: 'Home',
         path: '/',
-        redirect: '/home/workplace',
+        redirect: '/login',
         component: IndexLayout,
         children: [
           {

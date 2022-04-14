@@ -23,7 +23,7 @@
             <ul ref="centerdiv">
               <li v-for="(item, index) in centerlist" :key="index * 8.88">
                 <div class="large">
-                  <!-- <span class="s1">{{item.title}}</span> -->
+                  <span class="s1">{{item.title}}</span>
                   <span class="s2"></span>
                   <span class="s3">{{ item.title }}</span>
                 </div>
@@ -66,8 +66,14 @@
       <div class="p-top"><i class="iconfont icon-jiantou"></i></div>
       <div class="p-center"><i class="iconfont icon-mono-top-full"></i></div>
       <div class="iconfont icon-planebfeiji feiji" ref="feiji"></div>
+      <div class="dw1">
+      ALT/m
+      </div>
+      <div class="dw2">
+      IAS/m/s
+      </div>
     </div>
-    <button @click="changeTarge">left</button>
+    <!-- <button @click="changeTarge">left</button> -->
   </div>
 </template>
 <script >
@@ -126,17 +132,17 @@ export default defineComponent({
       // setInterval(() => {
       let num = parseInt(10 * Math.random());
       leftBox.value.style.transform = `translateY(${
-        (num / 10) * 30 - 1316 + "px"
+        (num / 10) * 30 - 1354 + "px"
       })`;
       dataObj.leftvalue = parseInt(num);
 
-      rightBox.value.style.transform = `translateY(${num * 30 - 446 + "px"})`;
+      rightBox.value.style.transform = `translateY(${num * 30 - 484 + "px"})`;
       dataObj.rightvalue = parseInt(num);
 
       let num1 = 16 * Math.random();
       console.log(num1);
       ToptBox.value.style.transform = `translateX(${
-        -(num1 / 10) * 50 - 780 + "px"
+        -(num1 / 10) * 50 - 804 + "px"
       })`;
 
       //中间滚轮效果
@@ -170,7 +176,7 @@ export default defineComponent({
     onMounted(() => {
       nextTick(() => {
         (function () {
-          window.onload = initNumXY(150, 120, 40, 40);
+          window.onload = initNumXY(110, 110, 40, 40);
           function initNumXY(R, r, w, h) {
             var numXY = [
               {
@@ -273,39 +279,40 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .mock {
-  background-image: linear-gradient(#436da7, #5d90c9);
-  height: 450px;
-  width: 600px;
+background: linear-gradient(181deg, #0C7586, #B7D94D);
+border-radius: 10px;
+  height: 320px;
+  width: 430px;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
   position: relative;
   .feiji {
-    font-size: 180px;
+    font-size: 120px;
     position: absolute;
     transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     color: #ff7a39;
     opacity: 0.6;
-    top: 78px;
-    left: 218px;
+    top: 55px;
+    left: 160px;
   }
   .Gzbox {
     width: 1200px;
     height: 500px;
-    background-image: linear-gradient(#4b8f98, #58d395);
+    background: linear-gradient(186deg, #0C489B, #7CB2F5);
     transform-origin: top center;
     transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     position: absolute;
     border-top: 1px solid #fff;
-    top: 218px;
+    top:150px;
     left: -50%;
   }
   .centerdiv {
     position: absolute;
-    top: 70px;
+    top: 30px;
     height: calc(27 * 6px);
     overflow: hidden;
-    left: 50%;
+    left: 40%;
     transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     transform: translateX(-35%);
     ul {
@@ -320,18 +327,21 @@ export default defineComponent({
           justify-content: space-around;
           font-size: 12px;
           .s1 {
-            color: #fff;
+            color: #F7FA25;
             padding: 0 5px;
+             opacity: 0.8;
           }
           .s2 {
             width: 40px;
             height: 1px;
             background: #fff;
             display: inline-block;
+            opacity: 0.6;
           }
           .s3 {
             margin-left: 5px;
-            color: #fff;
+            color: #F7FA25;
+            opacity: 0.8;
           }
         }
         .small {
@@ -341,6 +351,7 @@ export default defineComponent({
           justify-content: center;
           span {
             width: 15px;
+            opacity: 0.6;
             height: 1px;
             background: #fff;
             margin-left: -24px;
@@ -352,10 +363,13 @@ export default defineComponent({
   }
   .p-left {
     position: absolute;
-    top: 202px;
-    left: 100px;
+    top: 140px;
+    left: 35px;
+    color: #ff7a39;;
+     display: flex;
+    align-items: center;
     span {
-      width: 50px;
+      width: 30px;
       height: 3px;
       background: #ff7a39;
       display: inline-block;
@@ -363,10 +377,13 @@ export default defineComponent({
   }
   .p-right {
     position: absolute;
-    top: 202px;
-    right: 100px;
+    top: 140px;
+    display: flex;
+    align-items: center;
+    right: 35px;
+    color: #ff7a39;;
     span {
-      width: 50px;
+      width:30px;
       height: 3px;
       background: #ff7a39;
       display: inline-block;
@@ -374,8 +391,8 @@ export default defineComponent({
   }
   .p-center {
     position: absolute;
-    top: 199px;
-    left: 280px;
+    top: 131px;
+    left: 196px;
     i {
       font-size: 40px;
       color: #ff7a39;
@@ -383,18 +400,32 @@ export default defineComponent({
   }
   .p-bottom {
     position: absolute;
-    bottom: 55px;
-    left: 281px;
+    bottom: -10px;
+    left: 202px;
     transform: rotate(180deg);
     i {
       font-size: 28px;
       color: #ff7a39;
     }
   }
+  .dw1{
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    color: #F7FA25;
+    font-size: 12px;
+  }
+  .dw2{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    color: #F7FA25;
+    font-size: 12px;
+  }
   .p-top {
     position: absolute;
-    top: 35px;
-    left: 288px;
+    top: -10px;
+    left: 200px;
     transform: rotate(180deg);
     i {
       font-size: 28px;
@@ -409,14 +440,15 @@ export default defineComponent({
   }
   .viewbox {
     .viewTop {
-      margin-top: 5px;
-      width: 300px;
+      margin-top: 10px;
+      width: 243px;
       border-bottom: 1px dashed #fff;
       position: absolute;
+      left: 94px;
       height: 45px;
       overflow: hidden;
       .left {
-        transform: translateX(-780px);
+        transform: translateX(-804px);
         display: flex;
         flex-direction: row;
         transition: transform 0.61s ease 0s, background-color 2s ease 3s;
@@ -428,7 +460,7 @@ export default defineComponent({
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          color: #fff;
+          color: #DBE53C;
           .s1 {
           }
           .s2 {
@@ -439,13 +471,13 @@ export default defineComponent({
   }
 
   .viewLeft {
-    margin: 50px;
+    margin: 20px 10px 20px 10px;
     width: 50px;
     overflow: hidden;
-    height: 330px;
+    height: 270px;
     .left {
       width: 50px;
-      transform: translateY(-1316px);
+      transform: translateY(-1354px);
       transition: transform 0.61s ease 0s, background-color 2s ease 3s;
       border-right: 1px dashed #fff;
       .item {
@@ -463,13 +495,13 @@ export default defineComponent({
     }
   }
   .viewRight {
-    margin: 50px;
+    margin: 20px 10px 20px 10px;
     width: 50px;
     overflow: hidden;
-    height: 330px;
+    height: 270px;
     .left {
       width: 50px;
-      transform: translateY(-446px);
+      transform: translateY(-484px);
       transition: transform 0.61s ease 0s, background-color 2s ease 3s;
       border-left: 1px dashed #fff;
       .item {
@@ -490,7 +522,7 @@ export default defineComponent({
 </style>
 <style lang="less">
 .cicleBox {
-  margin-top: 70px;
+  margin-top: 40px;
   position: relative;
   /* 全局 */
   * {
@@ -498,8 +530,8 @@ export default defineComponent({
     padding: 0;
   }
   .clock {
-    width: 300px;
-    height: 300px;
+    width: 220px;
+    height: 220px;
     // box-shadow: 0px 0px 20px 3px #444 inset;
     transition: transform 0.61s ease 0s, background-color 2s ease 3s;
     border-radius: 150px;
@@ -524,15 +556,15 @@ export default defineComponent({
   }
 
   .origin {
-    // width: 2px;
-    // height: 2px;
-    // border-radius: 10px;
-    // background-color: #000;
+    width: 2px;
+    height: 2px;
+    border-radius: 10px;
+    background-color: #000;
     position: absolute;
     font-size: 160px;
     color: #c8d332;
-    top: 20px;
-    left: 73px;
+    top: 98px;
+    left:98px;
     z-index: 14;
   }
 
@@ -566,11 +598,11 @@ export default defineComponent({
   .clock-scale {
     width: 195px;
     height: 2px;
-    transform-origin: 26% 50%;
+    transform-origin: 33% 50%;
     z-index: 7;
     position: absolute;
-    top: 149px;
-    left: 100px;
+    top: 110px;
+    left:47px;
   }
   .scale-show {
     width: 12px;

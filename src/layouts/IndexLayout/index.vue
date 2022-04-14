@@ -1,8 +1,6 @@
 <template>
   <div id="indexlayout">
-    <home-header>
-
-    </home-header>
+    <home-header> </home-header>
     <div class="menu">
       <ul>
         <li
@@ -36,13 +34,13 @@
   </div>
 </template>
 <script>
-import homeHeader from '@/components/homeHeader.vue'
+import homeHeader from "@/components/homeHeader.vue";
 import menuList from "@/utils/menu";
 import { defineComponent, reactive, computed, ref } from "vue";
 export default defineComponent({
   name: "indexLayout",
-  components:{
-    homeHeader
+  components: {
+    homeHeader,
   },
   setup() {
     let scorllX = 0;
@@ -50,17 +48,14 @@ export default defineComponent({
     const CHOOSEINDEX = ref(0);
 
     const getMenu = (item, index) => {
-      scorllX = 0
-       document.querySelector(
-          ".scorlldiv"
-        ).style.transform = `translateX(0px)`;
+      scorllX = 0;
+      document.querySelector(".scorlldiv").style.transform = `translateX(0px)`;
       mList.map((j) => {
         j.active = false;
       });
       item.active = true;
       CHOOSEINDEX.value = index;
     };
-
 
     const childList = computed(() => {
       return mList[CHOOSEINDEX.value].children;
@@ -75,14 +70,14 @@ export default defineComponent({
           return;
         }
         scorllX -= iwdth;
-         document.querySelector(
+        document.querySelector(
           ".scorlldiv"
         ).style.transform = `translateX(-${scorllX}px)`;
       } else if (index == 1) {
         if (scorllX >= iwdth * length - swidth) {
           return;
         }
-         scorllX += iwdth;
+        scorllX += iwdth;
         document.querySelector(
           ".scorlldiv"
         ).style.transform = `translateX(-${scorllX}px)`;
@@ -101,9 +96,11 @@ export default defineComponent({
 <style lang="less" scoped>
 #indexlayout {
   background: @mainbg;
-  height: 100vh;
+  min-height: 100vh;
   .menu {
-    padding: 10px 20px;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    background: linear-gradient(-86deg, #1F2870, #131832);
     display: flex;
     .menu-right {
       margin-left: 10px;
@@ -125,6 +122,7 @@ export default defineComponent({
         border: 1px solid #5365d0;
         margin-right: 15px;
         height: 36px;
+        cursor: pointer;
         line-height: 36px;
         border-radius: 10px;
         width: 120px;
@@ -148,7 +146,7 @@ export default defineComponent({
       display: flex;
       align-items: center;
       .isActive {
-        background: radial-gradient(circle, #8b9eff, #3764f6);
+        background: radial-gradient(circle, #8B9EFF, #3764F6);
       }
       li {
         display: flex;
@@ -174,6 +172,5 @@ export default defineComponent({
       }
     }
   }
-
 }
 </style>

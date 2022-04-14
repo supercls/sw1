@@ -5,20 +5,24 @@
       <p class="title">赛为地面站1.0</p>
       <a-form
         :model="formState"
+        ref="formref"
+        style="margin-left: 30px"
         name="basic"
         layout="inline"
         autocomplete="off"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
       >
         <a-form-item
           label="通讯方式"
           :colon="false"
           class="elItem"
-          name="a"
+          name="name"
           :rules="[{ required: true, message: '请选择通讯方式' }]"
         >
-          <a-select v-model:value="formState.a" placeholder="请选择通讯方式">
+          <a-select
+            disabled
+            v-model:value="formState.name"
+            placeholder="请选择通讯方式"
+          >
             <a-select-option value="1">串口通信</a-select-option>
           </a-select>
         </a-form-item>
@@ -27,11 +31,19 @@
           label="串口号"
           class="elItem"
           :colon="false"
-          name="b"
+          name="serialPortNumber"
           :rules="[{ required: true, message: '请选择串口号' }]"
         >
-          <a-select v-model:value="formState.b" placeholder="请选择串口号">
-            <a-select-option value="1">COM1</a-select-option>
+          <a-select
+            v-model:value="formState.serialPortNumber"
+            placeholder="请选择串口号"
+          >
+            <a-select-option
+              v-for="(option, index) in options"
+              :key="index * 0.1"
+              :value="option"
+              >{{ option }}</a-select-option
+            >
           </a-select>
         </a-form-item>
 
@@ -39,20 +51,32 @@
           label="波特率"
           class="elItem"
           :colon="false"
-          name="c"
+          name="baudRate"
           :rules="[{ required: true, message: '请选择波特率' }]"
         >
-          <a-select v-model:value="formState.c" placeholder="请选择波特率">
-            <a-select-option value="1">COM1</a-select-option>
+          <a-select
+            v-model:value="formState.baudRate"
+            placeholder="请选择波特率"
+          >
+            <a-select-option
+              v-for="(option, index) in boteoption"
+              :key="index * 0.2"
+              :value="option.value"
+              >{{ option.value }}</a-select-option
+            >
           </a-select>
         </a-form-item>
       </a-form>
-      <div class="file">
+      <!-- <div class="file">
         <span>日志路径</span>
-        <a-input class="input" readonly v-model:value="formState.userName">
+        <a-input
+          class="input"
+          :maxlength="30"
+          v-model:value="formState.logPath"
+        >
         </a-input>
         <p>.....</p>
-      </div>
+      </div> -->
     </div>
     <footer>
       <a-button @click="login" class="button" type="primary" :loading="loading"
@@ -66,7 +90,9 @@ const { ipcRenderer } = window.require("electron");
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import elHeader from "@/components/header.vue";
-import { defineComponent, reactive, ref } from "vue";
+import { boteList } from "@/utils/arrayList";
+import { getPorts, openPort } from "./service";
+import { defineComponent, reactive, ref, onMounted, toRaw } from "vue";
 export default defineComponent({
   name: "login",
   components: {
@@ -74,51 +100,70 @@ export default defineComponent({
   },
   setup() {
     const formState = reactive({
-      a: "",
-      b: "",
-      c: "",
+      name: "1",
+      serialPortNumber: "",
+      baudRate: "",
     });
+    const options = ref([]);
+    const formref = ref(null);
+    const boteoption = ref(boteList);
     const store = useStore();
     const loading = ref(false);
     const router = useRouter();
-    const onFinish = (values) => {
-      console.log("Success:", values);
-    };
-
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
-    };
     const login = async () => {
-      let res = true;
-      if (res === true) {
-        store.dispatch("setToken", "6666");
-        setTimeout(() => {
-          ipcRenderer.send("changWindowSize");
-          router.replace({
-            path: "/",
-          });
-        }, 1000);
-      }
+      formref.value
+        .validate()
+        .then(() => {
+          loading.value = true;
+          openPort({
+            ...toRaw(formState),
+          })
+            .then((res) => {
+              store.dispatch("setToken", res.data.uid);
+              setTimeout(() => {
+                ipcRenderer.send("changWindowSize");
+                router.replace({
+                  path: "/home/workplace",
+                });
+              }, 1000);
+            })
+            .catch((e) => {
+              console.log(e);
+              loading.value = false;
+            });
+        })
+        .catch((err) => {
+          loading.value = false;
+          console.log("error", err);
+        });
     };
+    onMounted(() => {
+      getPorts().then((res) => {
+        options.value = res.data.ports;
+      });
+    });
     return {
       formState,
-      onFinish,
+      boteoption,
+      options,
       loading,
-      onFinishFailed,
       login,
+      formref,
     };
   },
 });
 </script>
 <style lang="less" scoped>
-
 .main {
   background: #252c49;
   height: 100vh;
   opacity: 0.9;
   footer {
     text-align: center;
-    margin-top: 125px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30px;
     .button {
       width: 130px;
       height: 45px;
@@ -159,7 +204,7 @@ export default defineComponent({
     .title {
       color: #fff;
       text-align: center;
-      padding: 10px 0px;
+      padding: 20px 0px 60px 0px;
       font-size: @font18;
     }
     .elItem {

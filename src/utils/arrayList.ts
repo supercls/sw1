@@ -1,0 +1,76 @@
+let actionArr = [
+    {
+        name:'一键起飞',
+        icon:'icon-ic_flight_takeoff_px',
+        id:1
+    },
+    {
+        name:'悬停',
+        icon:'icon-zanting',
+        id:2
+    },
+    {
+        name:'续航',
+        icon:'icon-ic_xuhangbang',
+        id:3
+    },
+    {
+        name:'返航',
+        icon:'icon-fanhang',
+        id:4
+    },
+    {
+        name:'左旋转',
+        icon:'icon-zuoxuanzhuan',
+        id:5
+    },
+    {
+        name:'右旋转',
+        icon:'icon-youxuanzhuan',
+        id:6
+    }
+]
+
+let boteList = [
+    {
+        value:110
+    },
+    {
+        value:300
+    },
+    {
+        value:600
+    },
+    {
+        value:1200
+    },
+    {
+        value:2400
+    },
+    {
+        value:4800
+    },
+    {
+        value:9600
+    },
+    {
+        value:14400
+    },
+    {
+        value:19200
+    },
+    {
+        value:38400
+    },
+    {
+        value:56000
+    },
+    {
+        value:57600
+    },
+    {
+        value:115200
+    }
+]
+
+export {actionArr,boteList}

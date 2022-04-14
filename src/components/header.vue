@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 const { remote } = window.require("electron");
 export default defineComponent({
-  name: "header",
+  name: "Homeheader",
   props: {
     title: {
       type: String,

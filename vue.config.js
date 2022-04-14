@@ -9,18 +9,18 @@ module.exports = {
         host: '0.0.0.0',
         port: VUE_APP_PORT || 8000,
         // 配置反向代理
-        /*
+
         proxy: {
-            '/api': {
-              target: '<url>',
+            '/gcc': {
+              target: 'http://localhost:8090',
               ws: true,
-              changeOrigin: true
-            },
-            '/foo': {
-              target: '<other_url>'
+              changeOrigin: true,
+              pathRewrite: {
+                '^/gcc': ''
+              }
             }
         },
-        */
+
     },
     css: {
         loaderOptions: {

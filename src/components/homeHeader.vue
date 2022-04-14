@@ -1,19 +1,19 @@
 <template>
   <div class="el_header">
-    <header>
+    <div class="header">
       <img src="../assets/images/logo.png" alt="" />
       <div>
         <i class="iconfont icon-suoxiao" @click="minimize"></i>
         <i class="iconfont icon-guanbi" @click="closeWindow"></i>
       </div>
-    </header>
+    </div>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
 const { remote } = window.require("electron");
 export default defineComponent({
-  name: "header",
+  name: "Homeheader",
   props: {
     title: {
       type: String,
@@ -41,7 +41,7 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .el_header {
-  header {
+  .header {
     display: flex;
     justify-content: space-between;
     height: 38px;
@@ -49,7 +49,7 @@ export default defineComponent({
     line-height: 38px;
     -webkit-app-region: drag;
     align-items: center;
-    background: @mainbg;
+    background: linear-gradient(-86deg, #1F2870, #131832);
     border-bottom: 1px solid #2d345d;
     opacity: 0.9;
     padding: 0 15px;
