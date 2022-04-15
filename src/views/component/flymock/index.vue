@@ -1,6 +1,6 @@
 <template>
   <div>
-     <div class="mock">
+    <div class="mock">
       <div class="Gzbox" ref="Gzbox"></div>
       <div class="viewLeft">
         <div class="left" ref="leftBox">
@@ -23,7 +23,7 @@
             <ul ref="centerdiv">
               <li v-for="(item, index) in centerlist" :key="index * 8.88">
                 <div class="large">
-                  <span class="s1">{{item.title}}</span>
+                  <span class="s1">{{ item.title }}</span>
                   <span class="s2"></span>
                   <span class="s3">{{ item.title }}</span>
                 </div>
@@ -66,12 +66,8 @@
       <div class="p-top"><i class="iconfont icon-jiantou"></i></div>
       <div class="p-center"><i class="iconfont icon-mono-top-full"></i></div>
       <div class="iconfont icon-planebfeiji feiji" ref="feiji"></div>
-      <div class="dw1">
-      ALT/m
-      </div>
-      <div class="dw2">
-      IAS/m/s
-      </div>
+      <div class="dw1">ALT/m</div>
+      <div class="dw2">IAS/m/s</div>
     </div>
     <!-- <button @click="changeTarge">left</button> -->
   </div>
@@ -83,9 +79,11 @@ import {
   reactive,
   nextTick,
   onMounted,
+  watch,
+  computed,
   toRefs,
 } from "vue";
-
+import { useStore } from "vuex";
 export default defineComponent({
   name: "Home",
   setup() {
@@ -106,10 +104,11 @@ export default defineComponent({
     let arr3 = [];
 
     for (let i = -18; i < 19; i++) {
-      arr3.push({
+      arr3.unshift({
         title: i * 10,
       });
     }
+    const coeff = 180 / Math.PI;
 
     const leftlist = ref(arr);
     const rightlist = ref(arr1);
@@ -128,6 +127,44 @@ export default defineComponent({
       numberHtml: null,
     });
     let onOff = true;
+    const store = useStore();
+    const robot = computed(() => store.state.Robot);
+
+    let doms = document.getElementsByClassName("clock-num ");
+    watch(robot, () => {
+      leftBox.value.style.transform = `translateY(${
+        robot.value.socket1.curAlt * 3 - 1354 + "px"
+      })`;
+      dataObj.leftvalue = parseInt(robot.value.socket1.curAlt);
+      // rightBox.value.style.transform = `translateY(${robot.value.socket1.yaw * 3 - 484 + "px"})`;
+      // dataObj.rightvalue = parseInt(robot.value.socket1.yaw);
+
+      document.getElementById("clock").style.transform = `rotate(${
+        -robot.value.socket1.yaw * coeff
+      }deg)`;
+      for (let i = 0; i < doms.length; i++) {
+        doms[i].style.transform = `rotate(${
+          robot.value.socket1.yaw * coeff
+        }deg)`;
+      }
+
+      ToptBox.value.style.transform = `translateX(${
+        -robot.value.socket1.roll * 5 * coeff - 804 + "px"
+      })`;
+
+      centerdiv.value.style.transform = `translateY(${
+        -robot.value.socket1.pitch * 3.5 * coeff - 560 + "px"
+      })`;
+
+      feiji.value.style.transform = `rotateX(${
+        robot.value.socket1.pitch * coeff + "deg"
+      })`;
+
+      Gzbox.value.style.transform = `rotate(${
+        robot.value.socket1.roll * coeff
+      }deg) translateY(${-robot.value.socket1.pitch * coeff + "px"}) `;
+    });
+
     const changeTarge = () => {
       // setInterval(() => {
       let num = parseInt(10 * Math.random());
@@ -272,6 +309,7 @@ export default defineComponent({
       rightBox,
       feiji,
       ToptBox,
+      robot,
       ...toRefs(dataObj),
     };
   },
@@ -279,8 +317,8 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .mock {
-background: linear-gradient(181deg, #0C7586, #B7D94D);
-border-radius: 10px;
+  background: linear-gradient(181deg, #0c7586, #b7d94d);
+  border-radius: 10px;
   height: 320px;
   width: 430px;
   overflow: hidden;
@@ -290,7 +328,7 @@ border-radius: 10px;
   .feiji {
     font-size: 120px;
     position: absolute;
-    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    transition: transform 0.21s ease 0s, background-color 2s ease 3s;
     color: #ff7a39;
     opacity: 0.6;
     top: 55px;
@@ -299,13 +337,13 @@ border-radius: 10px;
   .Gzbox {
     width: 1200px;
     height: 500px;
-    background: linear-gradient(186deg, #0C489B, #7CB2F5);
-    transform-origin: top center;
-    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    background: linear-gradient(186deg, #0c489b, #7cb2f5);
+    transform-origin:  center top;
+    transition: transform 0.21s ease 0s, background-color 2s ease 3s;
     position: absolute;
     border-top: 1px solid #fff;
-    top:150px;
-    left: -50%;
+    top: 150px;
+    left: -90%;
   }
   .centerdiv {
     position: absolute;
@@ -313,11 +351,11 @@ border-radius: 10px;
     height: calc(27 * 6px);
     overflow: hidden;
     left: 40%;
-    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    transition: transform 0.21s ease 0s, background-color 2s ease 3s;
     transform: translateX(-35%);
     ul {
       transform: translateY(-560px);
-      transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+      transition: transform 0.21s ease 0s, background-color 2s ease 3s;
       li {
         list-style: none;
 
@@ -327,9 +365,9 @@ border-radius: 10px;
           justify-content: space-around;
           font-size: 12px;
           .s1 {
-            color: #F7FA25;
+            color: #f7fa25;
             padding: 0 5px;
-             opacity: 0.8;
+            opacity: 0.8;
           }
           .s2 {
             width: 40px;
@@ -340,7 +378,7 @@ border-radius: 10px;
           }
           .s3 {
             margin-left: 5px;
-            color: #F7FA25;
+            color: #f7fa25;
             opacity: 0.8;
           }
         }
@@ -365,8 +403,8 @@ border-radius: 10px;
     position: absolute;
     top: 140px;
     left: 35px;
-    color: #ff7a39;;
-     display: flex;
+    color: #ff7a39;
+    display: flex;
     align-items: center;
     span {
       width: 30px;
@@ -381,9 +419,9 @@ border-radius: 10px;
     display: flex;
     align-items: center;
     right: 35px;
-    color: #ff7a39;;
+    color: #ff7a39;
     span {
-      width:30px;
+      width: 30px;
       height: 3px;
       background: #ff7a39;
       display: inline-block;
@@ -408,18 +446,18 @@ border-radius: 10px;
       color: #ff7a39;
     }
   }
-  .dw1{
+  .dw1 {
     position: absolute;
     top: 0px;
     left: 10px;
-    color: #F7FA25;
+    color: #f7fa25;
     font-size: 12px;
   }
-  .dw2{
+  .dw2 {
     position: absolute;
     top: 0px;
     right: 10px;
-    color: #F7FA25;
+    color: #f7fa25;
     font-size: 12px;
   }
   .p-top {
@@ -451,7 +489,7 @@ border-radius: 10px;
         transform: translateX(-804px);
         display: flex;
         flex-direction: row;
-        transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+        transition: transform 0.21s ease 0s, background-color 2s ease 3s;
 
         .item {
           display: flex;
@@ -460,7 +498,7 @@ border-radius: 10px;
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          color: #DBE53C;
+          color: #dbe53c;
           .s1 {
           }
           .s2 {
@@ -478,7 +516,7 @@ border-radius: 10px;
     .left {
       width: 50px;
       transform: translateY(-1354px);
-      transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+      transition: transform 0.21s ease 0s, background-color 2s ease 3s;
       border-right: 1px dashed #fff;
       .item {
         display: flex;
@@ -502,7 +540,7 @@ border-radius: 10px;
     .left {
       width: 50px;
       transform: translateY(-484px);
-      transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+      transition: transform 0.21s ease 0s, background-color 2s ease 3s;
       border-left: 1px dashed #fff;
       .item {
         display: flex;
@@ -533,7 +571,7 @@ border-radius: 10px;
     width: 220px;
     height: 220px;
     // box-shadow: 0px 0px 20px 3px #444 inset;
-    transition: transform 0.61s ease 0s, background-color 2s ease 3s;
+    transition: transform 0.21s ease 0s, background-color 2s ease 3s;
     border-radius: 150px;
     position: relative;
     margin: 5px auto;
@@ -564,7 +602,7 @@ border-radius: 10px;
     font-size: 160px;
     color: #c8d332;
     top: 98px;
-    left:98px;
+    left: 98px;
     z-index: 14;
   }
 
@@ -602,7 +640,7 @@ border-radius: 10px;
     z-index: 7;
     position: absolute;
     top: 110px;
-    left:47px;
+    left: 47px;
   }
   .scale-show {
     width: 12px;

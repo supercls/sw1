@@ -1,17 +1,24 @@
 import Vuex from "vuex";
-import { createPersistedState, createSharedMutations } from "vuex-electron"
-const storage = require('electron-localstorage');
+import { createPersistedState, createSharedMutations } from "vuex-electron";
+const storage = require("electron-localstorage");
 
 const store = new Vuex.Store({
   state: {
-    Token: '',
+    Token: "",
+    Robot: "",
   },
   actions: {
     setToken({ commit }, token) {
-        commit("SETTOKEN", token);
+      commit("SETTOKEN", token);
     },
     removeToken({ commit }) {
       commit("DELTOKEN");
+    },
+    setRobot({ commit }, robot) {
+      commit("SETROBOT", robot);
+    },
+    removeRobot({ commit }) {
+      commit("DELROBOT");
     },
   },
   mutations: {
@@ -22,9 +29,15 @@ const store = new Vuex.Store({
     DELTOKEN: (state) => {
       state.Token = null;
       storage.removeItem("ele-storage-token");
-    }
+    },
+    SETROBOT: (state, robot) => {
+      state.Robot = robot;
+    },
+    DELROBOT: (state) => {
+      state.Robot = null;
+    },
   },
-	plugins: [createPersistedState(), createSharedMutations()],
+  plugins: [createPersistedState(), createSharedMutations()],
 });
 
 export default store;

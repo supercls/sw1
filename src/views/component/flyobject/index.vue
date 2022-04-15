@@ -11,15 +11,15 @@
         <ul>
           <li>
             <p>纬度</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket1.curLat}}</span>
           </li>
           <li>
             <p>经度</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket1.curLng}}</span>
           </li>
           <li>
             <p>高度</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket1.curAlt}}</span>
           </li>
         </ul>
         <i class="iconfont icon-sanjiaoright"></i>
@@ -35,15 +35,15 @@
         <ul>
           <li>
             <p>滚转</p>
-            <span>11.11111</span>
+            <span>{{filterFun(Robot.socket1.roll)}}</span>
           </li>
           <li>
             <p>俯仰</p>
-            <span>11.11111</span>
+            <span>{{filterFun(Robot.socket1.pitch)}}</span>
           </li>
           <li>
             <p>偏航</p>
-            <span>11.11111</span>
+            <span>{{filterFun(Robot.socket1.yaw)}}</span>
           </li>
         </ul>
         <i class="iconfont icon-sanjiaoright"></i>
@@ -59,15 +59,15 @@
         <ul>
           <li>
             <p>高度</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket1.curAlt}}</span>
           </li>
           <li>
             <p>姿态</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket1.navStatus}}</span>
           </li>
           <li>
             <p>GPS</p>
-            <span>11.11111</span>
+            <span>{{Robot.socket2.gpsState}}</span>
           </li>
         </ul>
         <i class="iconfont icon-sanjiaoright"></i>
@@ -76,11 +76,22 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive ,computed , toRefs } from "vue";
+import {useStore,} from 'vuex'
 export default defineComponent({
   name: "flyobject",
   setup() {
-    return {};
+    const store = useStore()
+    const Robot = computed(() =>{
+      return store.state.Robot
+    })
+    const filterFun = (val) =>{
+      return parseFloat(val*180/Math.PI).toFixed(3)
+    }
+    return {
+      Robot,
+      filterFun
+    };
   },
 });
 </script>

@@ -51,12 +51,11 @@ export default defineComponent({
   setup: () => {
     const store = useStore();
     const router = useRouter();
-    const Token = computed(() => store.state.Token);
-
+    const robot = computed(() => store.state.robot);
+    console.log(robot)
     const openDialog = (dom) => {
       Electronwindow(dom, 500, 500, "#/home/setting");
     };
-
     const removeStore = () => {
       store.dispatch("removeToken");
       setTimeout(() => {
@@ -64,11 +63,12 @@ export default defineComponent({
           path: "/home/setting",
         });
       }, 1000);
+
     };
     return {
       openDialog,
       removeStore,
-      Token,
+      robot,
     };
   },
 });

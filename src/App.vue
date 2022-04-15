@@ -1,25 +1,25 @@
 <template>
-    <a-config-provider>
-      <router-view></router-view>
-    </a-config-provider>
+  <a-config-provider>
+    <router-view></router-view>
+  </a-config-provider>
 </template>
-<script lang="ts">
-import { defineComponent, computed, onMounted } from "vue";
+<script >
+import { defineComponent , onMounted} from "vue";
+import {uavSocket} from '@/utils/websocket.js'
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
-
-  }
-})
+    onMounted(() =>{
+      //uavSocket()
+    })
+  },
+});
 </script>
 <style lang="less">
-  body{
-    -webkit-user-select:none;
-
-   -moz-user-select:none;
-
-   -ms-user-select:none;
-
-   user-select:none;
-  }
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>

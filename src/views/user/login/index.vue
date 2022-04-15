@@ -92,6 +92,7 @@ import { useRouter } from "vue-router";
 import elHeader from "@/components/header.vue";
 import { boteList } from "@/utils/arrayList";
 import { getPorts, openPort } from "./service";
+import {uavSocket} from '@/utils/websocket.js'
 import { defineComponent, reactive, ref, onMounted, toRaw } from "vue";
 export default defineComponent({
   name: "login",
@@ -122,6 +123,7 @@ export default defineComponent({
               store.dispatch("setToken", res.data.uid);
               setTimeout(() => {
                 ipcRenderer.send("changWindowSize");
+                uavSocket()
                 router.replace({
                   path: "/home/workplace",
                 });
