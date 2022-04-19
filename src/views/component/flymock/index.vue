@@ -158,7 +158,9 @@ export default defineComponent({
 
       feiji.value.style.transform = `rotateX(${
         robot.value.socket1.pitch * coeff + "deg"
-      })`;
+      })  rotateY(${
+        robot.value.socket1.roll * coeff
+      }deg)`;
 
       Gzbox.value.style.transform = `rotate(${
         robot.value.socket1.roll * coeff
@@ -330,7 +332,7 @@ export default defineComponent({
     position: absolute;
     transition: transform 0.21s ease 0s, background-color 2s ease 3s;
     color: #ff7a39;
-    opacity: 0.6;
+    opacity: 0.7;
     top: 55px;
     left: 160px;
   }

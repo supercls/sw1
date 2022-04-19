@@ -67,7 +67,7 @@
           </li>
           <li>
             <p>GPS</p>
-            <span>{{Robot.socket2.gpsState}}</span>
+            <span>{{GPSFUN(Robot.socket2.gpsState)}}</span>
           </li>
         </ul>
         <i class="iconfont icon-sanjiaoright"></i>
@@ -76,21 +76,34 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive ,computed , toRefs } from "vue";
+import { defineComponent ,computed ,} from "vue";
 import {useStore,} from 'vuex'
 export default defineComponent({
   name: "flyobject",
   setup() {
+     let stategps = [
+      "NO_GPS",
+      "NO_FIX",
+      "2D_FIX",
+      "3D_FIX",
+      "DGPS",
+      "RTK_FLOAT",
+      "RTK_FIXED",
+    ];
     const store = useStore()
     const Robot = computed(() =>{
       return store.state.Robot
     })
     const filterFun = (val) =>{
-      return parseFloat(val*180/Math.PI).toFixed(3)
+      return  val ? parseFloat(val*180/Math.PI).toFixed(3) :''
+    }
+    const GPSFUN = (val) =>{
+      return stategps[val]
     }
     return {
       Robot,
-      filterFun
+      filterFun,
+      GPSFUN
     };
   },
 });

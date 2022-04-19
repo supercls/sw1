@@ -1,5 +1,6 @@
 const electron = window.require("electron");
 const { remote } = electron;
+import logger from "@/utils/log"
 const isDevelopment = process.env.NODE_ENV !== "production";
 const winURL = isDevelopment ? "http://localhost:8000" : `app://./index.html`;
 export function Electronwindow(dom,width,height,url) {
@@ -22,5 +23,6 @@ export function Electronwindow(dom,width,height,url) {
       dom = null;
     });
     global.windowObj[dom] = win;
+    logger.info(e)
   }
 }

@@ -93,6 +93,7 @@ import elHeader from "@/components/header.vue";
 import { boteList } from "@/utils/arrayList";
 import { getPorts, openPort } from "./service";
 import {uavSocket} from '@/utils/websocket.js'
+
 import { defineComponent, reactive, ref, onMounted, toRaw } from "vue";
 export default defineComponent({
   name: "login",
@@ -112,6 +113,7 @@ export default defineComponent({
     const loading = ref(false);
     const router = useRouter();
     const login = async () => {
+
       formref.value
         .validate()
         .then(() => {
@@ -130,7 +132,6 @@ export default defineComponent({
               }, 1000);
             })
             .catch((e) => {
-              console.log(e);
               loading.value = false;
             });
         })

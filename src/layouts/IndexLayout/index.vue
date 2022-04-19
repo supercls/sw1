@@ -19,6 +19,8 @@
           <div class="scorlldiv">
             <div
               class="mr-list"
+              :class="{active:child.active}"
+              @click="dialogView(child)"
               v-for="(child, childIndex) in childList"
               :key="childIndex * 6.66"
             >
@@ -37,6 +39,7 @@
 import homeHeader from "@/components/homeHeader.vue";
 import menuList from "@/utils/menu";
 import { defineComponent, reactive, computed, ref } from "vue";
+import { Electronwindow } from "@/utils/openWindow";
 export default defineComponent({
   name: "indexLayout",
   components: {
@@ -55,12 +58,18 @@ export default defineComponent({
       });
       item.active = true;
       CHOOSEINDEX.value = index;
+      childList.value.map(i =>i.active = false)
     };
 
     const childList = computed(() => {
       return mList[CHOOSEINDEX.value].children;
     });
 
+    const dialogView = (item) =>{
+      childList.value.map(i =>i.active = false)
+      item.active = true
+      Electronwindow(item.path, 500, 500, `#${item.path}`);
+    }
     const scorllGp = (index) => {
       let swidth = document.querySelector(".scorlldiv").offsetWidth;
       let iwdth = document.querySelector(".mr-list").offsetWidth + 15;
@@ -86,6 +95,7 @@ export default defineComponent({
     return {
       getMenu,
       scorllGp,
+      dialogView,
       CHOOSEINDEX,
       childList,
       mList,
@@ -130,6 +140,9 @@ export default defineComponent({
         white-space: nowrap;
         padding: 0 20px;
         color: #fff;
+      }
+      .active{
+        background: #3764F6;
       }
       i {
         font-size: 28px;

@@ -33,6 +33,11 @@ const routes = [
         component: () => import('@/views/refresh/index.vue'),
       },
       {
+        title: 'controlView',
+        path: '/home/controlView',
+        component: () => import('@/views/viewset/control.vue'),
+      },
+      {
         title: 'setting',
         path: '/home/setting',
         component: () => import('@/views/dialog/syssetting.vue'),

@@ -2,6 +2,12 @@
   <div class="indexlayout-main-content">
     <div class="mapLayout">
       <img src="../../assets/images/map.png" alt="" />
+      <div class="bottomLayout">
+        <div class="line-bg"></div>
+        <p class="title">系统状态栏</p>
+        <div class="line-bg"></div>
+        <flysys></flysys>
+      </div>
     </div>
     <div class="rightLayout">
       <div class="flyPart">
@@ -36,10 +42,13 @@
 import flymock from "../component/flymock/index.vue";
 import flyaction from "../component/flyaction/index.vue";
 import flyobject from "../component/flyobject/index.vue";
+import flysys from "../component/flysys/index.vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { Electronwindow } from "@/utils/openWindow";
-import { defineComponent, computed, reactive } from "vue";
+
+
+import { defineComponent, computed, reactive, ref } from "vue";
 
 export default defineComponent({
   name: "home",
@@ -47,12 +56,13 @@ export default defineComponent({
     flymock,
     flyaction,
     flyobject,
+    flysys
   },
   setup: () => {
     const store = useStore();
     const router = useRouter();
     const robot = computed(() => store.state.robot);
-    console.log(robot)
+    console.log(robot);
     const openDialog = (dom) => {
       Electronwindow(dom, 500, 500, "#/home/setting");
     };
@@ -63,8 +73,8 @@ export default defineComponent({
           path: "/home/setting",
         });
       }, 1000);
-
     };
+
     return {
       openDialog,
       removeStore,
@@ -79,6 +89,33 @@ export default defineComponent({
   display: flex;
   .mapLayout {
     flex: 3;
+    position: relative;
+    .bottomLayout {
+      position: absolute;
+      bottom: 10px;
+      background: #242c49;
+      opacity: 0.95;
+      left: 10px;
+      overflow: hidden;
+      right: 10px;
+      .title {
+        height: 32px;
+        line-height: 32px;
+        color: #91a9ff;
+        padding-left: 15px;
+        font-size: @font14;
+      }
+
+      .line-bg {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          #727fea 0%,
+          rgba(122, 185, 255, 0.02) 98%
+        );
+      }
+    }
     img {
       width: 100%;
       height: 100%;

@@ -2,9 +2,10 @@
 
 import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import log from 'electron-log';
 import './store/index'
+// 主进程日志文件位置：C:\Users\%USERPROFILE%\AppData\Roaming\{应用名称}\logs
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
 
 //后台服务
 // 当前的可执行文件所在目录
@@ -38,7 +39,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 400,
-    frame: false,
+    frame: true,
     backgroundColor:'#252C49',
     transparent :false,
     webPreferences: {
@@ -62,9 +63,10 @@ async function createWindow() {
     win.loadURL(winURL)
   }
 
-  ipcMain.on('close', e =>
+  ipcMain.on('close', e =>{
     win.close()
-  )
+    log.error(`close:${e}`);
+  })
   ipcMain.on('minimize', e =>
     win.minimize()
   )
@@ -99,7 +101,9 @@ app.on('ready', async () => {
   //runExec()
 })
 
-
+process.on('uncaughtException', function (error) {  //全局异常捕获
+  log.error(error)
+})
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
@@ -144,15 +148,18 @@ function runExec () {
   // 打印正常的后台可执行程序输出
   workerProcess.stdout.on('data', function (data) {
     console.log('stdout: ' + data)
+    log.error(`stdout:${data}`);
   })
 
   // 打印错误的后台可执行程序输出
   workerProcess.stderr.on('data', function (data) {
     console.log('stderr: ' + data)
+    log.error(`stderr:${data}`);
   })
 
   // 退出以后的输出
   workerProcess.on('close', function (code) {
     console.log('out code：' + code)
+    log.error(`out code:${code}`);
   })
 }

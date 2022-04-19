@@ -73,4 +73,48 @@ let boteList = [
     }
 ]
 
-export {actionArr,boteList}
+let sysList = [
+    {
+        name:'姿态',
+        field:'',
+    },
+    {
+        name:'GPS',
+        field:''
+    },
+    {
+        name:'通讯',
+        field:''
+    },
+    {
+        name:'飞行模式',
+        field:''
+    },
+    {
+        name:'操作模式',
+        field:''
+    },
+    {
+        name:'导航',
+        field:''
+    },
+    {
+        name:'主电源',
+        field:''
+    },
+    {
+        name:'动力电源',
+        field:''
+    },
+    {
+        name:'信号状态',
+        field:''
+    },
+    {
+        name:'解锁状态',
+        field:''
+    },
+
+]
+
+export {actionArr,boteList,sysList}

@@ -63,21 +63,21 @@ const menuList = [
         icon:'icon-xinchuangkoudakai',
         active:false,
         children:[
-            {
-                name:'仪表显示器',
-                active:false,
-                path:'/'
-            },
-            {
-                name:'对象列表栏',
-                active:false,
-                path:'/'
-            },
-            {
-                name:'动作指令栏',
-                active:false,
-                path:'/'
-            },
+            // {
+            //     name:'仪表显示器',
+            //     active:false,
+            //     path:'/'
+            // },
+            // {
+            //     name:'对象列表栏',
+            //     active:false,
+            //     path:'/'
+            // },
+            // {
+            //     name:'动作指令栏',
+            //     active:false,
+            //     path:'/'
+            // },
             {
                 name:'地图工具栏',
                 active:false,
@@ -91,7 +91,7 @@ const menuList = [
             {
                 name:'控制显示栏',
                 active:false,
-                path:'/'
+                path:'/home/controlView'
             }
         ]
     }
