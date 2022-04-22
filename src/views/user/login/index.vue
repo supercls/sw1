@@ -36,6 +36,7 @@
         >
           <a-select
             v-model:value="formState.serialPortNumber"
+            @click="getList"
             placeholder="请选择串口号"
           >
             <a-select-option
@@ -140,15 +141,22 @@ export default defineComponent({
           console.log("error", err);
         });
     };
-    onMounted(() => {
+    const getList = () =>{
       getPorts().then((res) => {
         options.value = res.data.ports;
       });
+    }
+    onMounted(() => {
+      getList()
+      setTimeout(() =>{
+        getList()
+      },6000)
     });
     return {
       formState,
       boteoption,
       options,
+      getList,
       loading,
       login,
       formref,
@@ -166,7 +174,7 @@ export default defineComponent({
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 30px;
+    bottom: 50px;
     .button {
       width: 130px;
       height: 45px;
@@ -176,7 +184,7 @@ export default defineComponent({
     }
   }
   .content {
-    padding: 0 35px;
+    padding: 50px 35px 0 35px;
     .file {
       margin: 50px 0;
       display: flex;

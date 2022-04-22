@@ -1,9 +1,8 @@
 const electron = window.require("electron");
 const { remote } = electron;
-import logger from "@/utils/log"
 const isDevelopment = process.env.NODE_ENV !== "production";
 const winURL = isDevelopment ? "http://localhost:8000" : `app://./index.html`;
-export function Electronwindow(dom,width,height,url) {
+export function Electronwindow(dom, width, height, url) {
   if (global.windowObj == undefined) {
     global.windowObj = {};
   }
@@ -13,16 +12,19 @@ export function Electronwindow(dom,width,height,url) {
     let win = new remote.BrowserWindow({
       width: width,
       height: height,
-      frame: false,
+      transparent: true,  //窗口透明，有bug
+      resizable:true, //设置窗口可拉伸
+      movable:true,  //设置窗口可拖动
+      skipTaskbar:false,
+      frame: false,  //无边框
       webPreferences: {
         nodeIntegration: true,
       },
     });
     win.loadURL(winURL + url);
     win.on("closed", () => {
-      dom = null;
+      //dom = null;
     });
     global.windowObj[dom] = win;
-    logger.info(e)
   }
 }

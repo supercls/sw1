@@ -68,7 +68,8 @@ export default defineComponent({
     const dialogView = (item) =>{
       childList.value.map(i =>i.active = false)
       item.active = true
-      Electronwindow(item.path, 500, 500, `#${item.path}`);
+      if(item.path == '') return
+      Electronwindow(item.path, item.width, item.height, `#${item.path}`);
     }
     const scorllGp = (index) => {
       let swidth = document.querySelector(".scorlldiv").offsetWidth;

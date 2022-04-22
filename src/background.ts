@@ -4,20 +4,23 @@ import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import log from 'electron-log';
 import './store/index'
+
+const nodecmd = require('node-cmd');
 // 主进程日志文件位置：C:\Users\%USERPROFILE%\AppData\Roaming\{应用名称}\logs
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+
 
 //后台服务
 // 当前的可执行文件所在目录
 let appPath = app.getPath('exe')
-
 // 获取上一层的目录 app 是当前目录名称 需要给去掉
-let path = appPath.replace(/\\dist\\electron.exe/, '')
+let path = isDevelopment ? appPath.replace(/electron.exe/, 'gcc') : appPath.replace(/gcc.exe/, 'gcc')
 
-
+log.info(path)
 const exec = require('child_process').exec
 // 本地须要启动的后台服务名称
-let cmdStr = 'gcc'
+let cmdStr = 'gccservice'
 let cmdPath = path
 let workerProcess
 
@@ -40,15 +43,24 @@ async function createWindow() {
     width: 800,
     height: 400,
     frame: true,
-    backgroundColor:'#252C49',
-    transparent :false,
+    backgroundColor: '#252C49',
+    transparent: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info.
-      nodeIntegration: true
+      nodeIntegration: true,
+      webSecurity: false
     }
   })
-
+  //===========自定义file:///协议的解析=======================
+  protocol.interceptFileProtocol('file', (req, callback) => {
+    const url = req.url.substr(8);
+    callback(decodeURI(url));
+  }, (error) => {
+    if (error) {
+      console.error('Failed to register protocol');
+    }
+  });
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
@@ -63,7 +75,8 @@ async function createWindow() {
     win.loadURL(winURL)
   }
 
-  ipcMain.on('close', e =>{
+  ipcMain.on('close', e => {
+
     win.close()
     log.error(`close:${e}`);
   })
@@ -82,6 +95,8 @@ app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    nodecmd.run('taskkill -f -t -im gccservice.exe')
+    exec('taskkill -f -t -im gccservice.exe')
     app.quit()
   }
 })
@@ -96,9 +111,9 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  //
+
+  runExec()
   createWindow()
-  //runExec()
 })
 
 process.on('uncaughtException', function (error) {  //全局异常捕获
@@ -140,14 +155,15 @@ ipcMain.on('openSettingWindow', e =>
   openCalendarWindow()
 )
 
-function runExec () {
+function runExec() {
   // 执行命令行，若是命令不须要路径，或就是项目根目录，则不须要cwd参数：
-  workerProcess = exec(cmdStr, {cwd: cmdPath})
+  workerProcess = exec(cmdStr, { cwd: cmdPath })
   // 不受child_process默认的缓冲区大小的使用方法，没参数也要写上{}：workerProcess = exec(cmdStr, {})
 
   // 打印正常的后台可执行程序输出
   workerProcess.stdout.on('data', function (data) {
     console.log('stdout: ' + data)
+
     log.error(`stdout:${data}`);
   })
 

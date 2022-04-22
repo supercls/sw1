@@ -47,6 +47,9 @@ export default defineComponent({
 
     const STATIONS = ref(sysList);
     const filFunction = (index) => {
+      try{
+
+
       switch (index) {
         case 0:
           if (
@@ -115,6 +118,9 @@ export default defineComponent({
             STATIONS.value[index].color = "#D43737";
             return "未解锁";
           }
+      }
+      }catch(e){
+        console.log(e)
       }
     };
     const store = useStore();

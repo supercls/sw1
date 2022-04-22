@@ -47,7 +47,6 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { Electronwindow } from "@/utils/openWindow";
 
-
 import { defineComponent, computed, reactive, ref } from "vue";
 
 export default defineComponent({
@@ -56,7 +55,7 @@ export default defineComponent({
     flymock,
     flyaction,
     flyobject,
-    flysys
+    flysys,
   },
   setup: () => {
     const store = useStore();

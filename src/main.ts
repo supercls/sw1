@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 // 全局样式
 import '@/assets/css/global.less';
 import "@/assets/css/variables.less";
+import "@/assets/icon/iconfont.css";
 // 引入 Antd
 import Antd from 'ant-design-vue';
 

@@ -1,8 +1,9 @@
 {
-  "name": "electron-admin-antd-vue",
+  "name": "gcc",
   "version": "1.0.0",
   "private": true,
-  "description": "Electron Vue3.x Antd Admin",
+  "author": "supercls",
+  "description": "gcc exe",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -23,6 +24,7 @@
     "electron-log": "^4.4.6",
     "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",
+    "node-cmd": "^5.0.0",
     "nprogress": "^0.2.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",

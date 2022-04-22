@@ -2,43 +2,78 @@
   <div>
     <div class="content">
       <ul>
-        <li v-for="item in actionList" :key="item.id">
+        <li v-for="item in actionList" :key="item.id" @click="postAction(item)">
           <i class="iconfont" :class="item.icon"></i>
           <span>{{ item.name }}</span>
         </li>
       </ul>
       <div class="bottom">
         <span class="p1">高度调整：</span>
-        <i class="iconfont i1 icon-pinleizengjia_o"></i>
-        <i class="iconfont i2 icon-pinleijianshao_o"></i>
+        <i
+          class="iconfont i1 icon-pinleizengjia_o"
+          @click="heightOrAngle = (heightOrAngle * 10 + 1) / 10"
+        ></i>
+        <i
+          class="iconfont i2 icon-pinleijianshao_o"
+          @click="heightOrAngle = (heightOrAngle * 10 - 1) / 10"
+        ></i>
         <a-input-number
-          v-model:value="value"
+          v-model:value="heightOrAngle"
           style="
             width: 100px;
             background: #252c49;
             border: 1px solid #5565a9;
             color: #fff;
           "
-          :min="0"
-          :step="0.001"
+          :step="0.1"
           :controls="false"
           string-mode
         />
         <span class="p3">米</span>
-        <span class="p2">发送</span>
+        <span class="p2" @click="heightAction()">发送</span>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { defineComponent ,reactive} from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { actionArr } from "@/utils/arrayList";
+import { actionPost } from "./service";
+import { message } from "ant-design-vue";
 export default defineComponent({
   name: "flyobject",
   setup() {
     const actionList = reactive(actionArr);
+    const heightOrAngle = ref(0.0);
+    let deg = 0;
+    let Adisabled = false;
+    let Bdisabled = false;
+    const postAction = (item) => {
+      if (item.id < 5 || Adisabled) return;
+      item.id == 5 ? (deg -= 10) : (deg += 10);
+      Adisabled = true;
+      actionPost({
+        type: 1,
+        heightOrAngle: deg,
+      })
+        .then(() => (Adisabled = false | message.success("指令已发送", 1)))
+        .catch(() => (Adisabled = false));
+    };
+    const heightAction = () => {
+      if (Bdisabled) return;
+      Bdisabled = true;
+      actionPost({
+        type: 2,
+        heightOrAngle: heightOrAngle.value,
+      })
+        .then(() => (Bdisabled = false | message.success("指令已发送", 1)))
+        .catch(() => (Bdisabled = false));
+    };
     return {
+      postAction,
+      heightAction,
       actionList,
+      heightOrAngle,
     };
   },
 });

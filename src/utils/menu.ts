@@ -37,12 +37,16 @@ const menuList = [
             {
                 name:'飞行数据',
                 active:false,
-                path:'/'
+                path:'/home/flyView',
+                width:1000,
+                height:800
             },
             {
                 name:'传感器数据',
                 active:false,
-                path:'/'
+                path:'/home/sensor',
+                width:650,
+                height:700
             },
         ]
     },
@@ -78,20 +82,22 @@ const menuList = [
             //     active:false,
             //     path:'/'
             // },
-            {
-                name:'地图工具栏',
-                active:false,
-                path:'/'
-            },
-            {
-                name:'系统状态栏',
-                active:false,
-                path:'/'
-            },
+            // {
+            //     name:'地图工具栏',
+            //     active:false,
+            //     path:''
+            // },
+            // {
+            //     name:'系统状态栏',
+            //     active:false,
+            //     path:''
+            // },
             {
                 name:'控制显示栏',
                 active:false,
-                path:'/home/controlView'
+                path:'/home/controlView',
+                width:600,
+                height:700
             }
         ]
     }

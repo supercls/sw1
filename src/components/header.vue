@@ -3,7 +3,7 @@
     <span> {{ title }}</span>
     <div>
       <i v-if="minsize" class="iconfont icon-suoxiao" @click="minimize"></i>
-      <i class="iconfont icon-guanbi" @click="closeWindow"></i>
+      <i  class="iconfont icon-guanbi" @click="closeWindow"></i>
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+
   },
   setup: () => {
     const closeWindow = () => {
@@ -49,8 +50,11 @@ export default defineComponent({
   align-items: center;
   background: @mainbg;
   border-bottom: 1px solid #7287fd;
-  opacity: 0.9;
   padding: 0 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   .icon-suoxiao {
     margin-right: 20px;
   }

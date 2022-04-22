@@ -5,7 +5,10 @@ const storage = require("electron-localstorage");
 const store = new Vuex.Store({
   state: {
     Token: "",
-    Robot: "",
+    Robot: {
+      socket1: {},
+      socket2: {},
+    },
   },
   actions: {
     setToken({ commit }, token) {
@@ -34,7 +37,10 @@ const store = new Vuex.Store({
       state.Robot = robot;
     },
     DELROBOT: (state) => {
-      state.Robot = null;
+      state.Robot = {
+        socket1: {},
+        socket2: {},
+      };
     },
   },
   plugins: [createPersistedState(), createSharedMutations()],
