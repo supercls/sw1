@@ -48,6 +48,11 @@ const routes = [
         component: () => import('@/views/viewset/sensor.vue'),
       },
       {
+        title: 'flycheck',
+        path: '/home/flycheck',
+        component: () => import('@/views/flycheck/index.vue'),
+      },
+      {
         title: 'setting',
         path: '/home/setting',
         component: () => import('@/views/dialog/syssetting.vue'),

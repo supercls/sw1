@@ -16,7 +16,7 @@ export function Electronwindow(dom, width, height, url) {
       resizable:true, //设置窗口可拉伸
       movable:true,  //设置窗口可拖动
       skipTaskbar:false,
-      frame: false,  //无边框
+      frame: true,  //无边框
       webPreferences: {
         nodeIntegration: true,
       },

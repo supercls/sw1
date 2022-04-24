@@ -270,9 +270,10 @@ export default defineComponent({
             var clock = document.getElementById("clock");
             for (var i = 1; i <= 12; i++) {
               if (i % 3 == 0) {
+                let num = i == 12 ? 'N' :i == '3' ? 'E' : i == 6 ? 'S' : i == '9' ? 'W' :i*30
                 clock.innerHTML +=
-                  "<div  class='clock-num em_num'>" +
-                  (i * 30 == 360 ? 0 : i * 30) +
+                  "<div  class='clock-num em_num' style='color:#ff7a39'> " +
+                  num +
                   "</div>";
               } else {
                 clock.innerHTML +=

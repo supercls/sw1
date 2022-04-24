@@ -59,6 +59,9 @@ export default defineComponent({
       item.active = true;
       CHOOSEINDEX.value = index;
       childList.value.map(i =>i.active = false)
+      if(item.path){
+         Electronwindow(item.path, item.width, item.height, `#${item.path}`);
+      }
     };
 
     const childList = computed(() => {
