@@ -1,6 +1,6 @@
 <template>
   <div class="control">
-    <el-header title="控制显示栏" minsize></el-header>
+    <el-header title="飞行数据" minsize></el-header>
     <div class="box">
       <div
         v-for="(item, index) in list"
@@ -93,7 +93,7 @@ export default defineComponent({
           color: #fff;
           font-size: @font14;
           margin-right: 8px;
-          width: 130px;
+          width: 120px;
           text-align: left;
         }
         .s4 {
@@ -102,7 +102,7 @@ export default defineComponent({
           line-height: 35px;
           text-align: center;
           background: #3d4661;
-          width: 80px;
+          width: 110px;
           color: #7595fb;
           border: 1px solid #7287fd;
           border-radius: 10px;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import logger from "@/utils/log";
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
 const { dialog } = window.require("electron").remote;
 
 const service = axios.create({
@@ -46,8 +46,16 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    if (error ) {
-      message.warning('服务器正在启动，请稍后点击重试');
+    if (error) {
+      if (error.response.status == 404 || error.response.status == 401) {
+        message.warning(
+          error.response.config.url + "/" + error.response.statusText
+        );
+      }
+      else{
+        message.warning("服务器正在启动，请稍后点击重试");
+      }
+
     } else {
       // 超时处理
       if (JSON.stringify(error).includes("timeout")) {

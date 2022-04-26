@@ -4,11 +4,7 @@ const menuList = [
         icon: 'icon-weibiaoti1',
         active: true,
         children: [
-            {
-                name: '日志路径',
-                active: false,
-                path: '/'
-            },
+
         ]
     },
     {

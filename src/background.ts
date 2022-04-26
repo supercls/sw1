@@ -42,7 +42,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 400,
-    frame: true,
+    frame: false,
     backgroundColor: '#252C49',
     transparent: false,
     webPreferences: {
@@ -76,14 +76,11 @@ async function createWindow() {
   }
 
   ipcMain.on('close', e => {
-
-    win.close()
+    nodecmd.run('taskkill -f -t -im gccservice.exe')
+    exec('taskkill -f -t -im gccservice.exe')
+    app.quit()
     log.error(`close:${e}`);
   })
-  ipcMain.on('minimize', e =>
-    win.minimize()
-  )
-
   ipcMain.on('changWindowSize', e =>
     win.maximize()
   )
@@ -135,25 +132,6 @@ if (isDevelopment) {
   }
 }
 
-// 定义calendar窗体
-let calendarWin
-// 创建calendar窗口方法
-function openCalendarWindow() {
-  calendarWin = new BrowserWindow({
-    width: 400,
-    height: 550,
-    frame: false,
-    parent: win, // win是主窗口
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-  calendarWin.loadURL(winURL + '#/setting')
-  calendarWin.on('closed', () => { calendarWin = null })
-}
-ipcMain.on('openSettingWindow', e =>
-  openCalendarWindow()
-)
 
 function runExec() {
   // 执行命令行，若是命令不须要路径，或就是项目根目录，则不须要cwd参数：

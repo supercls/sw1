@@ -7,6 +7,7 @@
           class="item"
           v-for="(item, index) in tabs"
           :key="index * 3.33"
+          :class="{active:activeIndex == index}"
           @click="changeTab(item, index)"
         >
           <p>{{ item.name }}</p>
@@ -32,15 +33,15 @@
           <div style="display: flex; align-items: center; margin-top: 25px">
             <div class="item">
               <span class="s3">滚转</span>
-              <span class="s4">{{filterFun(robot.socket1.roll)}}</span>
+              <span class="s4">{{ filterFun(robot.socket1.roll) }}</span>
             </div>
             <div class="item">
               <span class="s3">俯仰</span>
-              <span class="s4">{{filterFun(robot.socket1.pitch)}}</span>
+              <span class="s4">{{ filterFun(robot.socket1.pitch) }}</span>
             </div>
             <div class="item">
               <span class="s3">偏航</span>
-              <span class="s4">{{filterFun(robot.socket1.yaw)}}</span>
+              <span class="s4">{{ filterFun(robot.socket1.yaw) }}</span>
             </div>
           </div>
 
@@ -62,15 +63,20 @@
           <div style="display: flex; align-items: center; margin-top: 25px">
             <div class="item">
               <span class="s3">偏航角</span>
-              <span class="s4">{{filterFun(robot.socket1.yaw)}}</span>
+              <span class="s4">{{ filterFun(robot.socket1.yaw) }}</span>
             </div>
             <div class="item">
               <span class="s3">磁航向</span>
-              <span class="s4">{{filterFun(robot.socket2.magOrient)}}</span>
+              <span class="s4">{{ filterFun(robot.socket2.magOrient) }}</span>
             </div>
             <div class="item">
               <span class="s3">偏航角与磁航向误差</span>
-              <span class="s4">{{Math.abs(filterFun(robot.socket2.magOrient) - filterFun(robot.socket1.yaw))}}</span>
+              <span class="s4">{{
+                Math.abs(
+                  filterFun(robot.socket2.magOrient) * 1000 -
+                    filterFun(robot.socket1.yaw) * 1000
+                ) / 1000
+              }}</span>
             </div>
           </div>
 
@@ -92,29 +98,29 @@
           <div style="display: flex; align-items: center; margin-top: 25px">
             <div class="item">
               <span class="s3">GPS时间</span>
-              <span class="s4">{{}}</span>
+              <span class="s4">0.00</span>
             </div>
             <div class="item">
               <span class="s3">GPS状态</span>
-              <span class="s4">{{GPSFUN(robot.socket2.gpsState)}}</span>
+              <span class="s4">{{ GPSFUN(robot.socket2.gpsState) }}</span>
             </div>
             <div class="item">
               <span class="s3">卫星数</span>
-              <span class="s4">{{}}</span>
+              <span class="s4">0.00</span>
             </div>
           </div>
           <div style="display: flex; align-items: center; margin-top: 25px">
             <div class="item">
               <span class="s3">pDop</span>
-              <span class="s4">{{robot.socket2.dop}}</span>
+              <span class="s4">{{ robot.socket2.dop }}</span>
             </div>
             <div class="item">
               <span class="s3">主电源</span>
-              <span class="s4">{{robot.socket2.boardVoltage}}</span>
+              <span class="s4">{{ robot.socket2.boardVoltage }}</span>
             </div>
             <div class="item">
               <span class="s3">动力电源</span>
-              <span class="s4">{{}}</span>
+              <span class="s4">0.00</span>
             </div>
           </div>
 
@@ -132,10 +138,15 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref,computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 import elHeader from "@/components/header.vue";
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
 import { useStore } from "vuex";
+import {
+  getBeforeFlyCheck,
+  beforeFlyCheck,
+  updateBeforeFlyCheck,
+} from "./service";
 const { remote } = window.require("electron");
 export default defineComponent({
   name: "flycheck",
@@ -143,9 +154,10 @@ export default defineComponent({
     elHeader,
   },
   setup() {
-      const store = useStore();
+    const store = useStore();
     const robot = computed(() => store.state.Robot);
     const tabs = ref([]);
+    const activeIndex = ref(0);
     const checkList = ref([
       {
         checked: false,
@@ -189,40 +201,73 @@ export default defineComponent({
     ];
     const changeTab = (item, index) => {
       tabs.value.map((val) => (val.checked = false));
+      activeIndex.value = index;
       item.checked = true;
     };
     const changeBox = (e, index) => {
+      if (checkList.value[index - 1].id) {
+        updateBeforeFlyCheck({
+          id: checkList.value[index - 1].id,
+          status: e.target.checked ? 0 : 1,
+        });
+      } else {
+        beforeFlyCheck({
+          seq: index,
+          uid: store.state.Token,
+        }).then((res) => {
+          changeSeq();
+        });
+      }
+
       if (index <= 3) {
         if (e.target.checked) {
           tabs.value.map((val) => (val.checked = false));
           tabs.value[index].checked = true;
         }
       } else {
-          let onoff = checkList.value.every((item) =>item.checked == true)
-          if(!onoff){
-              message.error('请完成全部检查');
-              checkList.value[3].checked = false;
-          }
-          else{
-              message.success('全部检查完成');
-              remote.getCurrentWindow().close();
-          }
+        let onoff = checkList.value.every((item) => item.checked == true);
+        if (!onoff) {
+          message.error("请完成全部检查");
+          checkList.value[3].checked = false;
+        } else {
+          message.success("全部检查完成");
+          remote.getCurrentWindow().close();
+        }
       }
     };
-     const filterFun = (val) =>{
-      return  val ? parseFloat(val*180/Math.PI).toFixed(3) :''
-    }
-     const GPSFUN = (val) =>{
-      return stategps[val]
-    }
+    const filterFun = (val) => {
+      return val ? parseFloat((val * 180) / Math.PI).toFixed(3) : "";
+    };
+    const GPSFUN = (val) => {
+      return stategps[val];
+    };
+    const changeSeq = async () => {
+      try {
+        let data = await getBeforeFlyCheck({
+          uid: store.state.Token,
+        });
+        data.data.data.map((item) => {
+          checkList.value[item.seq - 1].id = item.id;
+          checkList.value[item.seq - 1].checked =
+            item.status == 0 ? true : false;
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    onMounted(() => {
+      changeSeq();
+    });
     return {
       tabs,
       checkList,
       robot,
+      activeIndex,
       changeTab,
+      changeSeq,
       filterFun,
       changeBox,
-      GPSFUN
+      GPSFUN,
     };
   },
 });
@@ -286,6 +331,9 @@ export default defineComponent({
       display: flex;
       align-items: center;
       border-radius: 15px;
+      .active {
+        background: #5f83f9 !important;
+      }
       .item {
         background: #3e4970;
         cursor: pointer;
@@ -295,9 +343,9 @@ export default defineComponent({
         border-radius: 5px;
         padding: 5px 15px;
         margin: 15px 8px;
-        i{
-           color: #4fab1e;
-           font-size: 20px;
+        i {
+          color: #4fab1e;
+          font-size: 20px;
         }
         p {
           color: #fff;

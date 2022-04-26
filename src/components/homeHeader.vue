@@ -11,7 +11,7 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-const { remote } = window.require("electron");
+const { remote,ipcRenderer } = window.require("electron");
 export default defineComponent({
   name: "Homeheader",
   props: {
@@ -28,9 +28,8 @@ export default defineComponent({
     const minimize = () => {
       remote.getCurrentWindow().minimize();
     };
-
     const closeWindow = () => {
-      remote.getCurrentWindow().close();
+      ipcRenderer.send('close')
     };
     return {
       closeWindow,
