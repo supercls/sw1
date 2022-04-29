@@ -38,32 +38,7 @@ or
 $ npm run electron:build
 ```
 
-### 四、精简 svg icon
-
-```
-$ yarn svgo
-```
-
-or
-
-```
-$ npm run svgo
-```
-
-### 五、Run your unit tests
-```
-yarn test:unit
-
-#
-
-npm run test:unit
-```
-
-### 六、Lints and fixes files
-```
-yarn lint
-
-#
-
-npm run lint
+### 注意!!!electron 频繁写入磁盘数据导致的错误Error: EPERM: operation not permitted, rename，修改对应的依赖包
+>**(https://github.com/vue-electron/vuex-electron/pull/20/commits/bd622ad6ccdf2e3b75331edc11c00edf6f48094d)**
+>**(https://github.com/vue-electron/vuex-electron/pull/20)**
 

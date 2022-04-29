@@ -93,7 +93,8 @@ import { useRouter } from "vue-router";
 import elHeader from "@/components/header.vue";
 import { boteList } from "@/utils/arrayList";
 import { getPorts, openPort } from "./service";
-import {uavSocket} from '@/utils/websocket.js'
+import { uavSocket } from "@/utils/websocket.js";
+import { Electronwindow } from "@/utils/openWindow";
 
 import { defineComponent, reactive, ref, onMounted, toRaw } from "vue";
 export default defineComponent({
@@ -114,7 +115,6 @@ export default defineComponent({
     const loading = ref(false);
     const router = useRouter();
     const login = async () => {
-
       formref.value
         .validate()
         .then(() => {
@@ -126,10 +126,13 @@ export default defineComponent({
               store.dispatch("setToken", res.data.uid);
               setTimeout(() => {
                 ipcRenderer.send("changWindowSize");
-                uavSocket()
+                uavSocket();
                 router.replace({
                   path: "/home/workplace",
                 });
+                setTimeout(() => {
+                  Electronwindow("/home/flycheck", 650, 700, "#/home/flycheck");
+                }, 3000);
               }, 1000);
             })
             .catch((e) => {
@@ -141,16 +144,16 @@ export default defineComponent({
           console.log("error", err);
         });
     };
-    const getList = () =>{
+    const getList = () => {
       getPorts().then((res) => {
         options.value = res.data.ports;
       });
-    }
+    };
     onMounted(() => {
-      getList()
-      setTimeout(() =>{
-        getList()
-      },6000)
+      getList();
+      setTimeout(() => {
+        getList();
+      }, 6000);
     });
     return {
       formState,

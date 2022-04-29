@@ -53,6 +53,11 @@ const routes = [
         component: () => import('@/views/flycheck/index.vue'),
       },
       {
+        title: 'flysetting',
+        path: '/home/flysetting',
+        component: () => import('@/views/setting/index.vue'),
+      },
+      {
         title: 'setting',
         path: '/home/setting',
         component: () => import('@/views/dialog/syssetting.vue'),

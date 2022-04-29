@@ -42,7 +42,7 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 400,
-    frame: false,
+    frame: true,
     backgroundColor: '#252C49',
     transparent: false,
     webPreferences: {

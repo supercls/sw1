@@ -21,7 +21,7 @@ const menuList = [
             {
                 name: '控制器参数',
                 active: false,
-                path: '/'
+                path: '/home/flysetting'
             },
         ]
     },

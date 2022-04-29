@@ -48,30 +48,73 @@ export default defineComponent({
     let deg = 0;
     let Adisabled = false;
     let Bdisabled = false;
+    let socket2 = null;
     const postAction = (item) => {
       if (item.id < 5 || Adisabled) return;
+      socket2 ? socket2.close() :''
+      socket2 = null
+      socket()
       item.id == 5 ? (deg -= 10) : (deg += 10);
       Adisabled = true;
       actionPost({
         type: 1,
         heightOrAngle: deg,
       })
-        .then(() => (Adisabled = false | message.success("指令已发送", 1)))
+        .then(() => {})
         .catch(() => (Adisabled = false));
     };
     const heightAction = () => {
       if (Bdisabled) return;
       Bdisabled = true;
+      socket2 ? socket2.close() :''
+      socket2 = null
+      socket()
       actionPost({
-        type: 2,
+        type: 0,
         heightOrAngle: heightOrAngle.value,
       })
-        .then(() => (Bdisabled = false | message.success("指令已发送", 1)))
+        .then(() => {})
         .catch(() => (Bdisabled = false));
+    };
+    const socket = () => {
+      const uri = "ws://localhost:8090/gcc/instructPackageWS";
+      socket2 = new WebSocket(uri);
+      socket2.onopen = () => {
+        console.log("已连接");
+      };
+      socket2.onmessage = (e) => {
+        try {
+          let msg = JSON.parse(e.data);
+          let data = JSON.parse(msg.data.data);
+          if(data.shortPackageHead && data.shortPackageHead.msg == 12){
+            Bdisabled = false
+            if(data.ackStatus == 0){
+               message.success("接收成功");
+            }
+            else{
+                message.error("接收失败");
+            }
+          }
+          else if(data.shortPackageHead && data.shortPackageHead.msg == 13){
+            Adisabled = false
+            if(data.ackStatus == 0){
+               message.success("接收成功");
+            }
+            else{
+                message.error("接收失败");
+            }
+          }
+
+        } catch (e) {}
+      };
+      socket2.onclose = (e) => {
+        console.log("已关闭");
+      };
     };
     return {
       postAction,
       heightAction,
+      socket,
       actionList,
       heightOrAngle,
     };

@@ -205,6 +205,7 @@ export default defineComponent({
       item.checked = true;
     };
     const changeBox = (e, index) => {
+
       if (checkList.value[index - 1].id) {
         updateBeforeFlyCheck({
           id: checkList.value[index - 1].id,
@@ -221,6 +222,7 @@ export default defineComponent({
 
       if (index <= 3) {
         if (e.target.checked) {
+          activeIndex.value = index
           tabs.value.map((val) => (val.checked = false));
           tabs.value[index].checked = true;
         }

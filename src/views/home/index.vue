@@ -27,13 +27,6 @@
       </div>
     </div>
     <!-- <flymock></flymock>
-    {{ Token }}
-    <a-button type="primary" @click="openDialog('a1')">
-      打开新窗口1
-    </a-button>
-    <a-button type="primary" @click="openDialog('b1')">
-      打开新窗口2</a-button
-    >
     <button @click="removeStore">删除</button> -->
   </div>
 </template>
@@ -47,7 +40,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { Electronwindow } from "@/utils/openWindow";
 
-import { defineComponent, computed, reactive, ref } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 
 export default defineComponent({
   name: "home",
@@ -62,9 +55,6 @@ export default defineComponent({
     const router = useRouter();
     const robot = computed(() => store.state.robot);
     console.log(robot);
-    const openDialog = (dom) => {
-      Electronwindow(dom, 500, 500, "#/home/setting");
-    };
     const removeStore = () => {
       store.dispatch("removeToken");
       setTimeout(() => {
@@ -73,9 +63,12 @@ export default defineComponent({
         });
       }, 1000);
     };
-
+    onMounted(() =>{
+      // setTimeout(() =>{
+      //   Electronwindow('/home/flycheck', 650, 700, "#/home/flycheck");
+      // },3000)
+    })
     return {
-      openDialog,
       removeStore,
       robot,
     };
