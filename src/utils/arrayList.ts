@@ -20,12 +20,12 @@ let actionArr = [
         id:4
     },
     {
-        name:'左旋转',
+        name:'左转10度',
         icon:'icon-zuoxuanzhuan',
         id:5
     },
     {
-        name:'右旋转',
+        name:'右转10度',
         icon:'icon-youxuanzhuan',
         id:6
     }
@@ -100,11 +100,13 @@ let sysList = [
     },
     {
         name:'主电源',
-        field:''
+        obj:'socket2',
+        field:'boardVoltage'
     },
     {
         name:'动力电源',
-        field:''
+        obj:'socket2',
+        field:'powerVoltage'
     },
     {
         name:'信号状态',
@@ -168,7 +170,8 @@ let flyList = [
             },
             {
                 name:'卫星数：',
-                field:''
+                obj:'socket2',
+                field:'satNum'
             },
             {
                 name:'航向：',

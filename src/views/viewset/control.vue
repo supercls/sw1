@@ -35,7 +35,7 @@
           <td class="d2"><div>{{robot.socket1.curAlt}}</div></td>
           <td class="d2"><div>OFF</div></td>
           <td class="d2">
-            <div>{{ robot.socket2.targetHeight }}</div>
+            <div>{{ robot.socket1.targetHeight }}</div>
           </td>
         </tr>
         <tr class="r2">
@@ -43,15 +43,15 @@
           <td class="d2"><div>{{(robot.socket1.roll*(180/3.14)).toFixed(2)}}</div></td>
           <td class="d2"><div>OFF</div></td>
           <td class="d2">
-            <div>{{ robot.socket2.targetRoll }}</div>
+            <div>{{ (robot.socket2.targetRoll * (180/3.14)).toFixed(2) }}</div>
           </td>
         </tr>
         <tr class="r2">
           <td class="d1">俯仰(deg)</td>
           <td class="d2"><div>{{(robot.socket1.pitch*(180/3.14)).toFixed(2)}}</div></td>
           <td class="d2"><div>OFF</div></td>
-          <td class="d2"><div>0.00</div></td>
-        </tr>
+          <td class="d2"><div>{{ (robot.socket2.targetPitch *(180/3.14)).toFixed(2) }}</div></td>
+   </tr>
         <tr class="r2">
           <td class="d1">指向(deg)</td>
           <td class="d2"><div>0.00</div></td>

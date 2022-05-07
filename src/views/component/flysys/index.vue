@@ -52,10 +52,9 @@ export default defineComponent({
 
       switch (index) {
         case 0:
-          if (
-            Math.abs((Robot.value.socket1.roll * 180) / Math.PI) < 50 &&
-            Math.abs((Robot.value.socket1.pitch * 180) / Math.PI) < 50
-          ) {
+          if (Robot.value.socket1.roll &&
+            Robot.value.socket1.roll * 180 / Math.PI < 50 &&
+            Robot.value.socket1.pitch * 180 / Math.PI < 50 ) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "正常";
@@ -65,7 +64,11 @@ export default defineComponent({
             return "异常";
           }
         case 1:
-          if (Robot.value.socket2.gpsState == 3) {
+          if (Robot.value.socket2.gpsState  == undefined){
+            STATIONS.value[index].bg = "#462929";
+            STATIONS.value[index].color = "#D43737";
+            return "通讯异常";
+          } else if (Robot.value.socket2.gpsState == 3) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "3D_FIX";
@@ -75,7 +78,7 @@ export default defineComponent({
             return state1[Robot.value.socket2.gpsState];
           }
         case 2:
-          if (Robot.value && Robot.value.socket1) {
+          if (Robot.value.socket1.roll) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "有数据";
@@ -87,15 +90,23 @@ export default defineComponent({
         case 3:
           return Robot.value.socket1.flightMode;
         case 4:
-          return "自动模式";
+          if (Robot.value.socket1.roll){
+            return "自动模式";
+          }else{
+            return "";
+          }
         case 5:
           return Robot.value.socket1.navStatus;
         case 6:
-          return Robot.value.socket1.boardVoltage;
+          return Robot.value.socket2.boardVoltage;
         case 7:
-          return "未知";
+          return Robot.value.socket2.powerVoltage;
         case 8:
-          if (Robot.value.socket1.signalStatus == 0) {
+          if(Robot.value.socket1.signalStatus == undefined) {
+            STATIONS.value[index].bg = "#462929";
+            STATIONS.value[index].color = "#D43737";
+            return "通讯异常";
+          }else if (Robot.value.socket1.signalStatus == 0) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "正常";
@@ -109,7 +120,11 @@ export default defineComponent({
             return "2.4G遥控器信号丢失";
           }
         case 9:
-          if (Robot.value.socket1.lockStatus == 1) {
+          if (Robot.value.socket1.lockStatus == undefined){
+            STATIONS.value[index].bg = "#462929";
+            STATIONS.value[index].color = "#D43737";
+            return "通讯异常";
+          }else if (Robot.value.socket1.lockStatus == 1) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "已解锁";

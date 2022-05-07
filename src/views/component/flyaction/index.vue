@@ -8,15 +8,9 @@
         </li>
       </ul>
       <div class="bottom">
-        <span class="p1">高度调整：</span>
-        <i
-          class="iconfont i1 icon-pinleizengjia_o"
-          @click="heightOrAngle = (heightOrAngle * 10 + 1) / 10"
-        ></i>
-        <i
-          class="iconfont i2 icon-pinleijianshao_o"
-          @click="heightOrAngle = (heightOrAngle * 10 - 1) / 10"
-        ></i>
+        <span class="p1">高度微调：</span>
+        <i class="iconfont i1 icon-pinleizengjia_o" @click="add"></i>
+        <i class="iconfont i2 icon-pinleijianshao_o" @click="sub"></i>
         <a-input-number
           v-model:value="heightOrAngle"
           style="
@@ -26,6 +20,7 @@
             color: #fff;
           "
           :step="0.1"
+          :precision="1"
           :controls="false"
           string-mode
         />
@@ -40,6 +35,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { actionArr } from "@/utils/arrayList";
 import { actionPost } from "./service";
 import { message } from "ant-design-vue";
+import { funCalc } from "@/utils/utils";
 export default defineComponent({
   name: "flyobject",
   setup() {
@@ -51,10 +47,10 @@ export default defineComponent({
     let socket2 = null;
     const postAction = (item) => {
       if (item.id < 5 || Adisabled) return;
-      socket2 ? socket2.close() :''
-      socket2 = null
-      socket()
-      item.id == 5 ? (deg -= 10) : (deg += 10);
+      socket2 ? socket2.close() : "";
+      socket2 = null;
+      socket();
+      item.id == 5 ? (deg = -10) : (deg = 10);
       Adisabled = true;
       actionPost({
         type: 1,
@@ -66,9 +62,9 @@ export default defineComponent({
     const heightAction = () => {
       if (Bdisabled) return;
       Bdisabled = true;
-      socket2 ? socket2.close() :''
-      socket2 = null
-      socket()
+      socket2 ? socket2.close() : "";
+      socket2 = null;
+      socket();
       actionPost({
         type: 0,
         heightOrAngle: heightOrAngle.value,
@@ -86,33 +82,37 @@ export default defineComponent({
         try {
           let msg = JSON.parse(e.data);
           let data = JSON.parse(msg.data.data);
-          if(data.shortPackageHead && data.shortPackageHead.msg == 12){
-            Bdisabled = false
-            if(data.ackStatus == 0){
-               message.success("接收成功");
+          if (data.shortPackageHead && data.shortPackageHead.msg == 12) {
+            Bdisabled = false;
+            if (data.ackStatus == 0) {
+              message.success("接收成功");
+            } else {
+              message.error("接收失败");
             }
-            else{
-                message.error("接收失败");
-            }
-          }
-          else if(data.shortPackageHead && data.shortPackageHead.msg == 13){
-            Adisabled = false
-            if(data.ackStatus == 0){
-               message.success("接收成功");
-            }
-            else{
-                message.error("接收失败");
+          } else if (data.shortPackageHead && data.shortPackageHead.msg == 13) {
+            Adisabled = false;
+            if (data.ackStatus == 0) {
+              message.success("接收成功");
+            } else {
+              message.error("接收失败");
             }
           }
-
         } catch (e) {}
       };
       socket2.onclose = (e) => {
         console.log("已关闭");
       };
     };
+    const add = () => {
+      heightOrAngle.value = funCalc([heightOrAngle.value, 0.1], 1, 1);
+    };
+    const sub = () => {
+      heightOrAngle.value = funCalc([heightOrAngle.value, -0.1], 1, 1);
+    };
     return {
       postAction,
+      add,
+      sub,
       heightAction,
       socket,
       actionList,

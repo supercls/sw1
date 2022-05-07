@@ -44,16 +44,20 @@ export default defineComponent({
     ];
     const store = useStore();
     const robot = computed(() => store.state.Robot);
+    console.log(robot)
     const list = ref(flyList);
     const filterFun = (child) => {
       if (child.field != "") {
         if(child.name == 'GPS状态：'){
           return state1[robot.value[child.obj][child.field]]
         }
+        if(child.field == "roll" || child.field == "pitch" || child.field == "yaw" ){
+          var val = robot.value[child.obj][child.field];
+          return  val ? parseFloat((val * 180) / Math.PI).toFixed(3) : "";
+        }
         return robot.value[child.obj][child.field];
-      }
-      else{
-        return '0.00'
+      } else{
+        return '0.00';
       }
     };
     return {

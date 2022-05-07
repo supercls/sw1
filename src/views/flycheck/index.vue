@@ -67,13 +67,13 @@
             </div>
             <div class="item">
               <span class="s3">磁航向</span>
-              <span class="s4">{{ filterFun(robot.socket2.magOrient) }}</span>
+              <span class="s4">{{ robot.socket2.magOrient }}</span>
             </div>
             <div class="item">
               <span class="s3">偏航角与磁航向误差</span>
               <span class="s4">{{
                 Math.abs(
-                  filterFun(robot.socket2.magOrient) * 1000 -
+                  robot.socket2.magOrient * 1000 -
                     filterFun(robot.socket1.yaw) * 1000
                 ) / 1000
               }}</span>
@@ -106,7 +106,7 @@
             </div>
             <div class="item">
               <span class="s3">卫星数</span>
-              <span class="s4">0.00</span>
+              <span class="s4">{{ robot.socket2.satNum }}</span>
             </div>
           </div>
           <div style="display: flex; align-items: center; margin-top: 25px">
@@ -120,7 +120,7 @@
             </div>
             <div class="item">
               <span class="s3">动力电源</span>
-              <span class="s4">0.00</span>
+              <span class="s4">{{ robot.socket2.powerVoltage }}</span>
             </div>
           </div>
 

@@ -21,7 +21,23 @@
           <p style="color: #ffe610; background: #343106" @click="submit">
             <i class="iconfont icon-duqu_vfb"></i>发送
           </p>
-          <p style="color: #ff8421; background: #3e220b">
+          <p style="color: #ff8421; background: #3e220b; position: relative">
+            <input
+              style="
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                cursor: pointer;
+                width: 100%;
+              "
+              @change="(e) => changeFile(e)"
+              type="file"
+              id="file"
+              accept=".xlsx,.xls"
+            />
             <i class="iconfont icon-send-s"></i>读取
           </p>
         </div>
@@ -257,8 +273,11 @@ export default defineComponent({
     };
     const askData = () => {
       socket1.close();
-      socket1 = null
+      socket1 = null;
       socket();
+    };
+    const changeFile = () => {
+
     };
     const socket = () => {
       const uri = "ws://localhost:8090/gcc/instructPackageWS";
@@ -300,8 +319,8 @@ export default defineComponent({
     const submit = () => {
       if (onOff) return;
       onOff = true;
-      let obj = { ...toRaw(dataObj.flydata)}
-      delete obj.longPackageHead
+      let obj = { ...toRaw(dataObj.flydata) };
+      delete obj.longPackageHead;
       setParams({
         ...obj,
       })
@@ -314,12 +333,34 @@ export default defineComponent({
     };
     onMounted(() => {
       socket();
+      return
+       document.querySelector("#file").addEventListener("change", (e) => {
+        let reader = new FileReader();
+        reader.readAsBinaryString(e.target.files[0]);
+        reader.onload = function () {
+          let wb = XLSX.read(this.result, {
+            type: 'binary'
+          });
+          let wsname = wb.SheetNames[0];
+          let ws = wb.Sheets[wsname];
+          let arr = XLSX.utils.sheet_to_csv(ws).split(',');
+          let fiedArr = arr.slice(20,40)
+          let valArr = arr.slice(40,60)
+          fiedArr.map((item,index) =>{
+            dataObj.flydata[item] = parseFloat(valArr[index])
+          })
+          dataObj.flydata.rateRollPidKp =  parseFloat(valArr[0])   //未知bug,第一个字段不显示数据
+
+        };
+      });
+      console.log(XLSX);
     });
     return {
       tabs,
       submit,
       askData,
       changeIn,
+      changeFile,
       changeTab,
       ...toRefs(dataObj),
       activeIndex,
