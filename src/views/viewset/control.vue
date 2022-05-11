@@ -20,7 +20,7 @@
         </tr>
         <tr class="r2">
           <td class="d1">地速</td>
-          <td class="d2"><div>{{(robot.socket1.velocityGround).toFixed(2)}}</div></td>
+          <td class="d2"><div>{{robot.socket1.velocityGround ?(robot.socket1.velocityGround).toFixed(2) :'0.00'}}</div></td>
           <td class="d2"><div>OFF</div></td>
           <td class="d2"><div>0.00</div></td>
         </tr>
@@ -40,17 +40,17 @@
         </tr>
         <tr class="r2">
           <td class="d1">滚转(deg)</td>
-          <td class="d2"><div>{{(robot.socket1.roll*(180/3.14)).toFixed(2)}}</div></td>
+          <td class="d2"><div>{{robot.socket1.roll?(robot.socket1.roll*(180/3.14)).toFixed(2) :'0.00'}}</div></td>
           <td class="d2"><div>OFF</div></td>
           <td class="d2">
-            <div>{{ (robot.socket2.targetRoll * (180/3.14)).toFixed(2) }}</div>
+            <div>{{ robot.socket2.targetRoll? (robot.socket2.targetRoll * (180/3.14)).toFixed(2) :''}}</div>
           </td>
         </tr>
         <tr class="r2">
           <td class="d1">俯仰(deg)</td>
-          <td class="d2"><div>{{(robot.socket1.pitch*(180/3.14)).toFixed(2)}}</div></td>
+          <td class="d2"><div>{{robot.socket1.pitch ? ( robot.socket1.pitch*(180/3.14)).toFixed(2)  :'0.00'}}</div></td>
           <td class="d2"><div>OFF</div></td>
-          <td class="d2"><div>{{ (robot.socket2.targetPitch *(180/3.14)).toFixed(2) }}</div></td>
+          <td class="d2"><div>{{robot.socket2.targetPitch ? (robot.socket2.targetPitch *(180/3.14)).toFixed(2) :'0.00'}}</div></td>
    </tr>
         <tr class="r2">
           <td class="d1">指向(deg)</td>
@@ -143,6 +143,7 @@ export default defineComponent({
     .p1 {
       color: #fff;
       display: flex;
+       font-weight: bolder;
       align-items: center;
       font-size: @font14;
       margin-bottom: 10px;

@@ -19,7 +19,7 @@
           <div class="scorlldiv">
             <div
               class="mr-list"
-              :class="{active:child.active}"
+              :class="{ active: child.active }"
               @click="dialogView(child)"
               v-for="(child, childIndex) in childList"
               :key="childIndex * 6.66"
@@ -58,9 +58,9 @@ export default defineComponent({
       });
       item.active = true;
       CHOOSEINDEX.value = index;
-      childList.value.map(i =>i.active = false)
-      if(item.path){
-         Electronwindow(item.path, item.width, item.height, `#${item.path}`);
+      childList.value.map((i) => (i.active = false));
+      if (item.path) {
+        Electronwindow(item.path, item.width, item.height, `#${item.path}`);
       }
     };
 
@@ -68,12 +68,12 @@ export default defineComponent({
       return mList[CHOOSEINDEX.value].children;
     });
 
-    const dialogView = (item) =>{
-      childList.value.map(i =>i.active = false)
-      item.active = true
-      if(item.path == '') return
+    const dialogView = (item) => {
+      childList.value.map((i) => (i.active = false));
+      item.active = true;
+      if (item.path == "") return;
       Electronwindow(item.path, item.width, item.height, `#${item.path}`);
-    }
+    };
     const scorllGp = (index) => {
       let swidth = document.querySelector(".scorlldiv").offsetWidth;
       let iwdth = document.querySelector(".mr-list").offsetWidth + 15;
@@ -114,7 +114,7 @@ export default defineComponent({
   .menu {
     padding: 10px 15px;
     margin-bottom: 5px;
-    background: linear-gradient(-86deg, #1F2870, #131832);
+    background: linear-gradient(-86deg, #1f2870, #131832);
     display: flex;
     .menu-right {
       margin-left: 10px;
@@ -144,9 +144,12 @@ export default defineComponent({
         white-space: nowrap;
         padding: 0 20px;
         color: #fff;
+        &:hover {
+          background: #5365d0;
+        }
       }
-      .active{
-        background: #3764F6;
+      .active {
+        background: #3764f6;
       }
       i {
         font-size: 28px;
@@ -163,7 +166,7 @@ export default defineComponent({
       display: flex;
       align-items: center;
       .isActive {
-        background: radial-gradient(circle, #8B9EFF, #3764F6);
+        background: radial-gradient(circle, #8b9eff, #3764f6);
       }
       li {
         display: flex;
@@ -186,6 +189,9 @@ export default defineComponent({
           color: #fff;
           font-size: @font10;
         }
+      }
+      :hover {
+        background: #8b9eff;
       }
     }
   }

@@ -188,7 +188,7 @@ let flyList = [
                 obj:'socket1',
             },
             {
-                name:'空速',
+                name:'空速：',
                 field:''
             },
         ]
@@ -294,7 +294,7 @@ let senList = [
         title:'磁传感器【mGauss】',
         children:[
             {
-                name:'X轴:',
+                name:'X轴：',
                 field:'magX',
                 obj:'socket2',
             },
@@ -354,7 +354,7 @@ let senList = [
         title:'体轴加速度【m/s/s】',
         children:[
             {
-                name:'X轴:',
+                name:'X轴：',
                 field:'',
                 obj:'',
             },
@@ -372,7 +372,7 @@ let senList = [
         title:'加速度偏差【m/s/s】',
         children:[
             {
-                name:'X轴:',
+                name:'X轴：',
                 field:'accelOffsetX',
                 obj:'socket2',
             },

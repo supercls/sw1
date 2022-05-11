@@ -262,6 +262,7 @@ export default defineComponent({
     ]);
     let socket1 = null;
     let onOff = false;
+    let Adisabled = false;
     const activeIndex = ref(0);
     let dataObj = reactive({
       flydata: {},
@@ -272,13 +273,19 @@ export default defineComponent({
       activeIndex.value = index;
     };
     const askData = () => {
+      if (Adisabled) return;
+      Adisabled = true;
       socket1.close();
       socket1 = null;
       socket();
+      setTimeout(() => {
+        if (Adisabled) {
+          message.error("无人机未响应，请求失败");
+          Adisabled = false;
+        }
+      }, 3000);
     };
-    const changeFile = () => {
-
-    };
+    const changeFile = () => {};
     const socket = () => {
       const uri = "ws://localhost:8090/gcc/instructPackageWS";
       socket1 = new WebSocket(uri);
@@ -293,6 +300,8 @@ export default defineComponent({
           console.log(msg);
           if (data.longPackageHead && data.longPackageHead.msg == 255) {
             dataObj.flydata = data;
+            Adisabled = false;
+            message.success("请求成功");
           } else if (
             data.shortPackageHead &&
             data.shortPackageHead.msg == 254
@@ -328,29 +337,36 @@ export default defineComponent({
           console.log(res);
         })
         .catch((e) => {
+           onOff = false
+          message.error("发送失败");
           console.log(e);
         });
+        setTimeout(() => {
+        if (onOff) {
+          message.error("无人机未响应，接收失败");
+          onOff = false;
+        }
+      }, 3000);
     };
     onMounted(() => {
       socket();
-      return
-       document.querySelector("#file").addEventListener("change", (e) => {
+      return;
+      document.querySelector("#file").addEventListener("change", (e) => {
         let reader = new FileReader();
         reader.readAsBinaryString(e.target.files[0]);
         reader.onload = function () {
           let wb = XLSX.read(this.result, {
-            type: 'binary'
+            type: "binary",
           });
           let wsname = wb.SheetNames[0];
           let ws = wb.Sheets[wsname];
-          let arr = XLSX.utils.sheet_to_csv(ws).split(',');
-          let fiedArr = arr.slice(20,40)
-          let valArr = arr.slice(40,60)
-          fiedArr.map((item,index) =>{
-            dataObj.flydata[item] = parseFloat(valArr[index])
-          })
-          dataObj.flydata.rateRollPidKp =  parseFloat(valArr[0])   //未知bug,第一个字段不显示数据
-
+          let arr = XLSX.utils.sheet_to_csv(ws).split(",");
+          let fiedArr = arr.slice(20, 40);
+          let valArr = arr.slice(40, 60);
+          fiedArr.map((item, index) => {
+            dataObj.flydata[item] = parseFloat(valArr[index]);
+          });
+          dataObj.flydata.rateRollPidKp = parseFloat(valArr[0]); //未知bug,第一个字段不显示数据
         };
       });
       console.log(XLSX);
@@ -391,9 +407,9 @@ export default defineComponent({
         .s3 {
           color: #fff;
           font-size: @font14;
-          margin-right: 8px;
-          width: 140px;
-          text-align: left;
+          margin-right: 18px;
+          width: 130px;
+          text-align: right;
         }
         .s4 {
           height: 35px;
@@ -411,6 +427,7 @@ export default defineComponent({
     .p1 {
       color: #fff;
       display: flex;
+       font-weight: bolder;
       align-items: center;
       font-size: @font14;
       margin-bottom: 10px;

@@ -46,7 +46,10 @@ export default defineComponent({
     let Bdisabled = false;
     let socket2 = null;
     const postAction = (item) => {
-      if (item.id < 5 || Adisabled) return;
+      if (item.id < 5 || Adisabled) {
+        message.info("功能未启用");
+        return;
+      }
       socket2 ? socket2.close() : "";
       socket2 = null;
       socket();
@@ -58,6 +61,12 @@ export default defineComponent({
       })
         .then(() => {})
         .catch(() => (Adisabled = false));
+      setTimeout(() => {
+        if (Adisabled) {
+          message.error("无人机未响应，接收失败");
+          Adisabled = false;
+        }
+      }, 3000);
     };
     const heightAction = () => {
       if (Bdisabled) return;
@@ -71,6 +80,12 @@ export default defineComponent({
       })
         .then(() => {})
         .catch(() => (Bdisabled = false));
+      setTimeout(() => {
+        if (Bdisabled) {
+          message.error("无人机未响应，接收失败");
+          Bdisabled = false;
+        }
+      }, 3000);
     };
     const socket = () => {
       const uri = "ws://localhost:8090/gcc/instructPackageWS";
@@ -163,7 +178,7 @@ export default defineComponent({
       display: flex;
       cursor: pointer;
       flex-direction: column;
-      box-shadow: #3c467e 0px 0px 5px 1px inset;
+      box-shadow: #3c467e 0px 0px 5px 3px inset;
       align-items: center;
       width: 90px;
       height: 60px;
@@ -178,6 +193,12 @@ export default defineComponent({
         font-size: @font12;
         color: #fff;
       }
+    }
+    :hover {
+      background: #293770;
+    }
+    :active {
+      background: #29459d;
     }
   }
 }

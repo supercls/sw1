@@ -53,8 +53,8 @@ export default defineComponent({
       switch (index) {
         case 0:
           if (Robot.value.socket1.roll &&
-            Robot.value.socket1.roll * 180 / Math.PI < 50 &&
-            Robot.value.socket1.pitch * 180 / Math.PI < 50 ) {
+            Math.abs(Robot.value.socket1.roll * 180 / Math.PI) < 50 &&
+             Math.abs(Robot.value.socket1.pitch * 180 / Math.PI) < 50 ) {
             STATIONS.value[index].bg = "#1D3C1F";
             STATIONS.value[index].color = "#2ABD2A";
             return "正常";

@@ -83,9 +83,9 @@ export default defineComponent({
         .s3 {
           color: #fff;
           font-size: @font14;
-          margin-right: 8px;
+          margin-right: 18px;
           width: 130px;
-          text-align: left;
+          text-align: right;
         }
         .s4 {
           height: 35px;
@@ -104,6 +104,7 @@ export default defineComponent({
       color: #fff;
       display: flex;
       align-items: center;
+       font-weight: bolder;
       font-size: @font14;
       margin-bottom: 10px;
       .s1 {

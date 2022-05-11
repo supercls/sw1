@@ -42,15 +42,21 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 400,
+    resizable:false,
+    show: false,// 先隐藏,等待缓冲，避免闪屏白屏
     frame: false,
     backgroundColor: '#252C49',
-    transparent: false,
+    transparent: true,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info.
       nodeIntegration: true,
       webSecurity: false
     }
+  })
+
+  win.on('ready-to-show', function () { //important
+    win.show() // 初始化后再显示，避免闪屏
   })
   //===========自定义file:///协议的解析=======================
   protocol.interceptFileProtocol('file', (req, callback) => {

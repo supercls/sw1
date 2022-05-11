@@ -58,16 +58,16 @@
         <i class="iconfont icon-sanjiaoleft"></i>
         <ul>
           <li>
-            <p>高度</p>
-            <span>{{Robot.socket1.curAlt}}</span>
+            <p>通讯</p>
+            <span :style="{color:co3}">{{rollFun(Robot.socket1.roll)}}</span>
           </li>
           <li>
             <p>姿态</p>
-            <span>{{Robot.socket1.navStatus}}</span>
+            <span :style="{color:co1}">{{filterStatus()}}</span>
           </li>
           <li>
             <p>GPS</p>
-            <span>{{GPSFUN(Robot.socket2.gpsState)}}</span>
+            <span :style="{color:co2}">{{GPSFUN(Robot.socket2.gpsState)}}</span>
           </li>
         </ul>
         <i class="iconfont icon-sanjiaoright"></i>
@@ -76,33 +76,60 @@
   </div>
 </template>
 <script>
-import { defineComponent ,computed ,} from "vue";
+import { defineComponent ,computed ,ref} from "vue";
 import {useStore,} from 'vuex'
 export default defineComponent({
   name: "flyobject",
   setup() {
-     let stategps = [
-      "NO_GPS",
-      "NO_FIX",
-      "2D_FIX",
-      "3D_FIX",
-      "DGPS",
-      "RTK_FLOAT",
-      "RTK_FIXED",
-    ];
     const store = useStore()
+    let co1 = ref('#dbe53c')
+    let co2 = ref('#dbe53c')
+    let co3 = ref('#dbe53c')
     const Robot = computed(() =>{
       return store.state.Robot
     })
     const filterFun = (val) =>{
       return  val ? parseFloat(val*180/Math.PI).toFixed(3) :''
     }
+    const filterStatus = () =>{
+       if (Robot.value.socket1.roll &&
+            Math.abs(Robot.value.socket1.roll * 180 / Math.PI) < 50 &&
+            Math.abs(Robot.value.socket1.pitch * 180 / Math.PI) < 50 ) {
+              co1.value = '#dbe53c'
+            return "正常";
+          } else {
+            co1.value = '#D43737'
+            return "异常";
+          }
+    }
     const GPSFUN = (val) =>{
-      return stategps[val]
+      if(val == 3){
+         co2.value = '#dbe53c'
+        return '正常'
+      }
+      else{
+        co2.value = '#D43737'
+        return '异常'
+      }
+    }
+    const rollFun = (val) =>{
+      if(val){
+         co3.value = '#dbe53c'
+        return '有数据'
+      }
+      else{
+         co3.value = '#D43737'
+        return '无数据'
+      }
     }
     return {
       Robot,
       filterFun,
+      rollFun,
+      co1,
+      co2,
+      co3,
+      filterStatus,
       GPSFUN
     };
   },

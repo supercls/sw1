@@ -98,7 +98,7 @@ export default defineComponent({
           font-size: @font14;
           margin-right: 8px;
           width: 120px;
-          text-align: left;
+          text-align: right;
         }
         .s4 {
           height: 35px;
@@ -116,6 +116,7 @@ export default defineComponent({
     .p1 {
       color: #fff;
       display: flex;
+      font-weight: bolder;
       align-items: center;
       font-size: @font14;
       margin-bottom: 10px;

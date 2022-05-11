@@ -21,6 +21,7 @@ service.interceptors.request.use(
     return config;
   },
   (error) => {
+    logger.error(`before:request:${error}`);
     Promise.reject(error);
   }
 );
@@ -46,6 +47,7 @@ service.interceptors.response.use(
     }
   },
   (error) => {
+    logger.error(error);
     if (error) {
       if (error.response.status == 404 || error.response.status == 401) {
         message.warning(
@@ -53,7 +55,7 @@ service.interceptors.response.use(
         );
       }
       else{
-        message.warning("服务器正在启动，请稍后点击重试");
+        return Promise.reject(error);
       }
 
     } else {

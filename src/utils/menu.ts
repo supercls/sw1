@@ -57,7 +57,7 @@ const menuList = [
         icon: 'icon-jiancha',
         active: false,
         path: '/home/flycheck',
-        width: 650,
+        width: 800,
         height: 700,
         children: []
     },

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const bodyParser = require('body-parser')
-const { NODE_ENV, VUE_APP_PORT, VUE_APP_MOCK } = process.env;
+const { VUE_APP_PORT, } = process.env;
 module.exports = {
     publicPath: '/',
     outputDir: 'dist',

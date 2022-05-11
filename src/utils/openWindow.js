@@ -12,11 +12,13 @@ export function Electronwindow(dom, width, height, url) {
     let win = new remote.BrowserWindow({
       width: width,
       height: height,
-      transparent: true,  //窗口透明，有bug
-      resizable:true, //设置窗口可拉伸
-      movable:true,  //设置窗口可拖动
-      skipTaskbar:false,
-      frame: true,  //无边框
+      transparent: true, //窗口透明，有bug
+      resizable: true, //设置窗口可拉伸
+      movable: true, //设置窗口可拖动
+      skipTaskbar: false,
+      frame: true, //无边框
+      minWidth: width,
+      minHeight: height,
       webPreferences: {
         nodeIntegration: true,
       },

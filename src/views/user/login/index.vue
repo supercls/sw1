@@ -95,7 +95,7 @@ import { boteList } from "@/utils/arrayList";
 import { getPorts, openPort } from "./service";
 import { uavSocket } from "@/utils/websocket.js";
 import { Electronwindow } from "@/utils/openWindow";
-
+import { message } from "ant-design-vue";
 import { defineComponent, reactive, ref, onMounted, toRaw } from "vue";
 export default defineComponent({
   name: "login",
@@ -112,6 +112,11 @@ export default defineComponent({
     const formref = ref(null);
     const boteoption = ref(boteList);
     const store = useStore();
+    // store.dispatch("setToken", "");
+    // store.dispatch("setRobot", {
+    //   socket1: {},
+    //   socket2: {},
+    // });
     const loading = ref(false);
     const router = useRouter();
     const login = async () => {
@@ -131,23 +136,29 @@ export default defineComponent({
                   path: "/home/workplace",
                 });
                 setTimeout(() => {
-                  Electronwindow("/home/flycheck", 650, 700, "#/home/flycheck");
+                  Electronwindow("/home/flycheck", 800, 700, "#/home/flycheck");
                 }, 3000);
               }, 1000);
             })
             .catch((e) => {
               loading.value = false;
+               message.error("连接串口失败，请重新检查再启动连接");
             });
         })
         .catch((err) => {
           loading.value = false;
           console.log("error", err);
+
         });
     };
     const getList = () => {
-      getPorts().then((res) => {
-        options.value = res.data.ports;
-      });
+      getPorts()
+        .then((res) => {
+          options.value = res.data.ports;
+        })
+        .catch((e) => {
+          message.info("服务正在启动，请稍后点击重试");
+        });
     };
     onMounted(() => {
       getList();
