@@ -21,7 +21,9 @@ const menuList = [
             {
                 name: '控制器参数',
                 active: false,
-                path: '/home/flysetting'
+                path: '/home/flysetting',
+                width: 1100,
+                height: 700
             },
         ]
     },

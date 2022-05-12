@@ -326,8 +326,21 @@ export default defineComponent({
       dataObj.flydata[data] = parseInt(dataObj.flydata[data]);
     };
     const submit = () => {
+       let isAll = false
+      let tte = document.querySelectorAll('.s4')
+      for(let i = 0 ; i<tte.length;i++){
+        if(tte[i].value == ''){
+          isAll = true
+          break
+        }
+      }
+      if(isAll){
+        message.info("请填写完整参数列表")
+        return
+      }
       if (onOff) return;
       onOff = true;
+
       let obj = { ...toRaw(dataObj.flydata) };
       delete obj.longPackageHead;
       setParams({

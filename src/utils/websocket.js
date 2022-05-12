@@ -1,7 +1,8 @@
 import store from "@/store/index.js";
 import { message } from "ant-design-vue";
-let  timeConnect = 0;
+let timeConnect = 0;
 export function uavSocket() {
+  let timeOut = null;
   const wsuri = "ws://localhost:8090/gcc/broadPackageWS";
   const websocket = new WebSocket(wsuri);
   let storeObj = {
@@ -11,9 +12,19 @@ export function uavSocket() {
   websocket.onopen = () => {
     console.log("已连接");
   };
-  websocket.onmessage = (message) => {
+  websocket.onmessage = (msgs) => {
+    if (timeOut) {
+      clearInterval(timeOut);
+    }
+    timeOut = setTimeout(() => {
+      message.error("与无人机连接失败，请关闭重新连接");
+      store.dispatch("setRobot", {
+        socket1: "",
+        socket2: "",
+      });
+    }, 5000);
     try {
-      let msg = JSON.parse(message.data);
+      let msg = JSON.parse(msgs.data);
       let data = JSON.parse(msg.data.data);
       if (data.longPackageHead.msg == "1") {
         storeObj.socket1 = data;
@@ -24,22 +35,21 @@ export function uavSocket() {
     } catch (e) {}
   };
   websocket.onclose = (e) => {
-    reconnect()
+    reconnect();
     console.log("已关闭");
   };
-  websocket.onerror = (e) =>{
+  websocket.onerror = (e) => {
     store.dispatch("setRobot", storeObj);
-    message.error("websocket连接失败,正在重新连接")
-  }
+    message.error("websocket连接失败,正在重新连接");
+  };
 }
 
 // 重连  jiekou有问题，重连后没响应，连接数累加
 function reconnect() {
-    // lockReconnect加锁
-    timeConnect++;
-    console.log("第" + timeConnect + "次重连");
-    setTimeout(function () {
-        uavSocket();
-    }, 2000);
-
+  // lockReconnect加锁
+  timeConnect++;
+  console.log("第" + timeConnect + "次重连");
+  setTimeout(function () {
+    uavSocket();
+  }, 2000);
 }

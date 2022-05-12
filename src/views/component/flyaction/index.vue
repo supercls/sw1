@@ -69,6 +69,7 @@ export default defineComponent({
       }, 3000);
     };
     const heightAction = () => {
+      if(!heightOrAngle.value) return
       if (Bdisabled) return;
       Bdisabled = true;
       socket2 ? socket2.close() : "";

@@ -117,7 +117,7 @@ export default defineComponent({
           } else {
             STATIONS.value[index].bg = "#462929";
             STATIONS.value[index].color = "#D43737";
-            return "2.4G遥控器信号丢失";
+            return "2.4G信号丢失";
           }
         case 9:
           if (Robot.value.socket1.lockStatus == undefined){

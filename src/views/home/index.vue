@@ -1,7 +1,10 @@
 <template>
   <div class="indexlayout-main-content">
     <div class="mapLayout">
-      <img src="../../assets/images/map.png" alt="" />
+      <!-- <img src="../../assets/images/map.png" alt="" /> -->
+      <div class="map">
+        <map-con></map-con>
+      </div>
       <div class="bottomLayout">
         <div class="line-bg"></div>
         <p class="title">系统状态栏</p>
@@ -38,7 +41,7 @@ import flyobject from "../component/flyobject/index.vue";
 import flysys from "../component/flysys/index.vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { Electronwindow } from "@/utils/openWindow";
+import mapCon from '@/map/index.vue'
 
 import { defineComponent, computed, onMounted } from "vue";
 
@@ -47,6 +50,7 @@ export default defineComponent({
   components: {
     flymock,
     flyaction,
+    mapCon,
     flyobject,
     flysys,
   },
@@ -82,6 +86,11 @@ export default defineComponent({
   .mapLayout {
     flex: 3;
     position: relative;
+    .map{
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
     .bottomLayout {
       position: absolute;
       bottom: 10px;

@@ -44,9 +44,9 @@ async function createWindow() {
     height: 400,
     resizable:false,
     show: false,// 先隐藏,等待缓冲，避免闪屏白屏
-    frame: false,
+    frame: true,
     backgroundColor: '#252C49',
-    transparent: true,
+    transparent: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info.
@@ -118,6 +118,12 @@ app.on('ready', async () => {
   runExec()
   createWindow()
 })
+
+const gotTheLock = app.requestSingleInstanceLock()  //限制应用只启动一个
+if (!gotTheLock) {
+  app.quit()
+}
+
 
 process.on('uncaughtException', function (error) {  //全局异常捕获
   log.error(error)
